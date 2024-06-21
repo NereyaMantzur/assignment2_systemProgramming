@@ -3,12 +3,10 @@
 
 #include "supermarket.h"
 
-typedef struct
-{
-	SuperMarket* superArr;
-	int numOfSuperInArr;
-
-}SuperMarketManager;
+typedef struct {
+    SuperMarket* markets;
+    int numMarkets; 
+} SupermarketManager;
 
 int addSupermarket(SuperMarket *superPtr);
 int removeSupermarket(SuperMarket* superPtr);
