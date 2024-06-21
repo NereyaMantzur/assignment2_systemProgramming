@@ -8,9 +8,9 @@ typedef struct {
     int numMarkets; 
 } SupermarketManager;
 
-int addSupermarket(SuperMarket *superPtr);
-int removeSupermarket(SuperMarket* superPtr);
-int updateSupermarket(SuperMarket* superPtr);
+int addSupermarket(SupermarketManager* managerPtr, SuperMarket* marketPtr);
+int removeSupermarket(SupermarketManager* managerStr, SuperMarket* marketStr);
+int updateSupermarket(SupermarketManager* managerStr, SuperMarket* marketStr);
 SuperMarket* findSupermarketByNameOrCode(char* superStr, int superCode);
 
 
