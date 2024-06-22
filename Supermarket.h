@@ -3,6 +3,7 @@
 
 typedef struct
 {
+	char name[50];
 	const char* superName;
 	const char* superAdress;
 	const int superCode;
