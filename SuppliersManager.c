@@ -5,8 +5,6 @@
 
 void addSupplier(Supplier* supplier)
 {
-    fputs("please enter supplier name\n", stdout);
-    fgets(supplier->supplierName, 255, stdin);
 
 }
 void removeSupplier(Supplier* supplier)

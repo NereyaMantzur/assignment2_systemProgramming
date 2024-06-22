@@ -29,7 +29,7 @@ void printSupplierArr()
 
 }
 
-void initSuppliers(SupplierManager *suppliers)
+void initSuppliers(SupplierManager* suppliers)
 {
 		char choice;
 	do
@@ -41,13 +41,12 @@ void initSuppliers(SupplierManager *suppliers)
 		{
 		case 'Y':
 		case 'y':
-			suppliers->supplierArr = (Supplier*)realloc(suppliers->supplierArr, suppliers->numOfSuppliers + 1);
-			Supplier* newSupplier = (Supplier*)malloc(sizeof(Supplier));
 			fputs("please enter supplier name\n", stdout);
-			fgets(newSupplier->supplierName, 255, stdin);
+			fgets(suppliers->supplierArr[suppliers->numOfSuppliers]->supplierName, 255, stdin);
 			fputs("please enter supplier code\n", stdout);
-			scanf_s(" %d", &newSupplier->supplierName);
-			addSupplier(newSupplier);
+			scanf_s(" %d", suppliers->supplierArr[suppliers->numOfSuppliers]->supplierCode);
+			addSupplier(suppliers->supplierArr[suppliers->numOfSuppliers]);
+			suppliers->numOfSuppliers++;
 			break;
 		case 'N':
 		case 'n':
@@ -59,7 +58,7 @@ void initSuppliers(SupplierManager *suppliers)
 		}
 	} while (choice != 'n' && choice != 'N');
 }
-void initSupers(SuperMarketManager *supers)
+void initSupers()
 {
 
 }

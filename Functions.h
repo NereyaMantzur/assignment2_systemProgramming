@@ -11,8 +11,8 @@ void printSuperArr();
 void printSupplier();
 void printSupplierArr();
 
-void initSuppliers(SupplierManager *suppliers);
-void initSupers(SuperMarketManager *supers);
+void initSuppliers(SupplierManager* suppliers);
+void initSupers();
 
 
 #endif // !FUNCTIONS_H
