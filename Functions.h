@@ -1,8 +1,8 @@
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
 
-#include "SupermarketManager.h"
 #include "SuppliersManager.h"
+#include "SupermarketManager.h"
 
 void getDate();
 void getSuperAdress();

@@ -5,7 +5,7 @@
 
 typedef struct
 {
-	Supplier* supplierArr[1];
+	Supplier* supplierArr;
 	int numOfSuppliers;
 
 }SupplierManager;

@@ -4,12 +4,11 @@
 #include "Functions.h"
 
 SupplierManager* suppliers;
-SuperMarketManager* supres;
+SupermarketManager* supres;
 
 int main()
 {
-	suppliers = (SupplierManager*)malloc(sizeof(SupplierManager));
-	supres = (SuperMarketManager*)malloc(sizeof(SuperMarketManager));
+	supres = (SupermarketManager*)malloc(sizeof(SupermarketManager));
 	initSuppliers(suppliers);
 	initSupers(supres);
 	return 1;

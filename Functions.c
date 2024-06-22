@@ -31,31 +31,17 @@ void printSupplierArr()
 
 void initSuppliers(SupplierManager* suppliers)
 {
-		char choice;
+	suppliers = (SupplierManager*)malloc(sizeof(SupplierManager));
+	char choice;
 	do
 	{
-		fputs("Do you want to add a supplier? y/n \n", stdout);
-		choice = getchar();
-		getchar();
-		switch (choice)
+		suppliers->supplierArr = (Supplier*)realloc(suppliers->supplierArr, (suppliers->numOfSuppliers + 1) * sizeof(Supplier));
+		if (!suppliers->supplierArr)
 		{
-		case 'Y':
-		case 'y':
-			fputs("please enter supplier name\n", stdout);
-			fgets(suppliers->supplierArr[suppliers->numOfSuppliers]->supplierName, 255, stdin);
-			fputs("please enter supplier code\n", stdout);
-			scanf_s(" %d", suppliers->supplierArr[suppliers->numOfSuppliers]->supplierCode);
-			addSupplier(suppliers->supplierArr[suppliers->numOfSuppliers]);
-			suppliers->numOfSuppliers++;
-			break;
-		case 'N':
-		case 'n':
-			fputs("ok bye!\n", stdout);
-			break;
-		default:
-			puts("oy lo\n");
-			break;
+			printf("Stop");
 		}
+		addSupplier(&suppliers->supplierArr[suppliers->numOfSuppliers]);
+		suppliers->numOfSuppliers++;
 	} while (choice != 'n' && choice != 'N');
 }
 void initSupers()

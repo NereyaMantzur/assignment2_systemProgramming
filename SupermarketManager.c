@@ -15,7 +15,7 @@ int addSupermarket(SupermarketManager* managerPtr, SuperMarket* marketPtr) {
         printf("Memory reallocation failed\n");
         return 0; // Failure
     }
-n             
+
     // Add the new market to the array
     manager->markets = newMarkets;
     manager->markets[manager->numMarkets] = *market;
