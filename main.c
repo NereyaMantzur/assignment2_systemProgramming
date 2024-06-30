@@ -1,6 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "Functions.h"
 void q1(SupermarketManager* supermarketManager)
@@ -10,7 +11,6 @@ void q1(SupermarketManager* supermarketManager)
 
 void q2(SupermarketManager* supermarketManager, SupplierManager* supplierManager, ProductManager* productManager) {
     int choice;
-	int super;
     printf("please enter your choice:\n");
     printf("1 - for adding product to a supermarket :\n");
     printf("2 - for adding product to a supplier :\n");
@@ -21,7 +21,7 @@ void q2(SupermarketManager* supermarketManager, SupplierManager* supplierManager
         addProdcutToSupermarket(addProduct(productManager), supermarketManager);
         break;
     case 2:
-        addProdcutToSupermarket(addProduct(productManager), supplierManager);
+        addProdcutToSupplier(addProduct(productManager), supplierManager);
         break;
     default:
         break;
@@ -32,15 +32,93 @@ void q3(SupermarketManager* manager)
 {
     char name[MAX_NAME];
     int code;
-    printSupermarketManager(&manager);
+    printSupermarketManager(manager);
     printf("enter supermarket name:\n");
     scanf("%s", &name);
     getchar();
     printf("enter supermarket code:\n");
 	scanf("%d", &code);
-    printSupermarket(findSupermarketByNameOrCode(&manager, name, code));
+    printSupermarket(findSupermarketByNameOrCode(manager, name, code));
 }
 
+void q5(SupplierManager* manager)
+{
+    char name[MAX_NAME];
+    int code;
+    printSupplierManager(manager);
+    printf("please enter supplier name: ");
+    scanf("%s", &name);
+    getchar();
+    printf("please enter supplier code: ");
+	scanf("%d", &code);
+	Supplier* supplier =  findSupplierByNameOrCode(manager, name, code);
+    for (size_t i = 0; i < supplier->numOfProducts; i++)
+    {
+		printProduct(supplier->productsArr[i]);
+    }
+}
+
+void q6(SupermarketManager* manager)
+{
+    int choice;
+    printf("please choose Product Type:\n");
+    printf("1 - FOOD\n");
+    printf("2 - CLEANING\n");
+    printf("1 - GENERAL\n");
+    scanf("%d", &choice);
+    for (size_t i = 0; i < manager->numOfSupermarkets; i++)
+    {
+        for (size_t j = 0; j < manager->supermarkets[i]->numOfProducts; j++)
+        {
+            if (*(manager->supermarkets[i]->productsArr[j]->specs->type) == choice)
+            {
+				printProduct(manager->supermarkets[i]->productsArr[j]);
+            }
+        }
+    }
+}
+
+void q7(SupplierManager* manager)
+{
+    int choice;
+    printf("please choose Product Type:\n");
+    printf("1 - FOOD\n");
+    printf("2 - CLEANING\n");
+    printf("1 - GENERAL\n");
+    scanf("%d", &choice);
+    for (size_t i = 0; i < manager->numOfSuppliers; i++)
+    {
+        for (size_t j = 0; j < manager->suppliers[i]->numOfProducts; j++)
+        {
+            if (*(manager->suppliers[i]->productsArr[j]->specs->type) == choice)
+            {
+                printProduct(manager->suppliers[i]->productsArr[j]);
+            }
+        }
+    }
+}
+
+void q8(SupermarketManager* manager)
+{
+    char name[MAX_NAME];
+    int code;
+    printSupermarketManager(manager);
+    printf("please choose supermarket name: ");
+    scanf("%s", &name);
+    getchar();
+    printf("please enter supermarket code: ");
+    scanf("%d", &code);
+    for (size_t i = 0; i < manager->numOfSupermarkets; i++)
+    {
+        if ((!strcmp(manager->supermarkets[i]->name , name)) || manager->supermarkets[i]->code == code)
+        {
+            for (size_t j = 0; j < manager->supermarkets[i]->numOfProducts; j++)
+            {
+				printProduct(manager->supermarkets[i]->productsArr[j]);
+            }
+        }
+    }
+}
 
 int main() {
     SupermarketManager supermarketManager ;
@@ -75,37 +153,24 @@ int main() {
             q2(&supermarketManager, &supplierManager,&productManager);
             break;
         case 3:
-            q3(&supermarketManager);
+            q3(&supermarketManager);// need fix
         break;
         case 4:
             printSupermarketManager(&supermarketManager);
         break;
-        //case 5:
-        //{
-        //    char supermarketName[MAX_NAME_LENGTH];
-        //    int supermarketCode;
-        //    // Code to input supermarket details
-        //    printProductsSoldBySupermarket(&supermarketManager, supermarketName, supermarketCode);
-        //}
-        //break;
-        //case 6:
-        //    printAllSupermarkets(&supermarketManager);
-        //    break;
-        //case 7:
-        //{
-        //    char supplierName[MAX_NAME_LENGTH];
-        //    // Code to input supplier name
-        //    printSupplierProducts(&supplierManager, supplierName);
-        //}
-        //break;
-        //case 8:
-        //{
-        //    int productType;
-        //    // Code to input product type
-        //    printProductsByTypeInSupermarkets(&supermarketManager, productType);
-        //}
-        //break;
-        case 9: // Exit
+        case 5:
+            q5(&supplierManager);
+        break;
+        case 6:
+            q6(&supermarketManager);
+            break;
+        case 7:
+            q7(&supplierManager);
+        break;
+        case 8:
+            q8(&supermarketManager);
+        break;
+        case 9:
             printf("Exiting the program.\n");
             break;
         default:
