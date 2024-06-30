@@ -120,13 +120,11 @@ int addSupermarket(SupermarketManager* manager) {
     }
 
     printf("Enter supermarket name: ");
-    scanf("%s", &supermarket->name);
-    getchar();
+    strcpy(supermarket->name , getStr());
     replaceSpaces(supermarket->name);
 
     printf("Enter supermarket address: ");
-    scanf("%s", &supermarket->address);
-    getchar();
+    strcpy(supermarket->address ,getStr());
     replaceSpaces(supermarket->address);
 
     printf("Enter supermarket code (5 digits): ");
@@ -238,15 +236,27 @@ Supermarket* findSupermarketByNameOrCode(SupermarketManager* manager, char* str,
 
 void printSupermarket(Supermarket* super)
 {
-    printf("%s - %d\n", super->name, super->code);
+    if (super == NULL || super->name == NULL) {
+        printf("Invalid supermarket data\n");
+        return;
+    }
+    char* ptr = super->name;
+    while (*ptr != '\0') {
+        if (*ptr == '\n') {
+            *ptr = '\0';
+            break;
+        }
+        ptr++;
+    }
+    printf("%s | %d|\n", super->name, super->code);
 }
 
 void printSupermarketManager(SupermarketManager* manager)
 {
-    printf("supermarket name - supermarket code:\n");
+    printf("\n=====|supermarket name | supermarket code|=====\n");
     for (size_t i = 0; i < manager->numOfSupermarkets; i++)
     {
-		printf("%d : ", i + 1);
+		printf("%d : |", (int)i + 1);
         printSupermarket(manager->supermarkets[i]);
     }
 }

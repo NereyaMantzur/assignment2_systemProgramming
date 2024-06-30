@@ -15,6 +15,7 @@ void q2(SupermarketManager* supermarketManager, SupplierManager* supplierManager
     printf("1 - for adding product to a supermarket :\n");
     printf("2 - for adding product to a supplier :\n");
     scanf("%d", &choice);
+    printProductManager(productManager);
     switch (choice)
     {
     case 1:
@@ -150,10 +151,10 @@ int main() {
             q1(&supermarketManager);
             break;
         case 2: 
-            q2(&supermarketManager, &supplierManager,&productManager);
+            q2(&supermarketManager, &supplierManager,&productManager);// need fix
             break;
         case 3:
-            q3(&supermarketManager);// need fix
+            q3(&supermarketManager);
         break;
         case 4:
             printSupermarketManager(&supermarketManager);

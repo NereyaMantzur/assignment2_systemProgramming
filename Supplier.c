@@ -124,7 +124,7 @@ int addSupplier(SupplierManager* manager) {
 
 
     printf("Enter supplier name: ");
-    *(supplier->name) = *getStr();
+    *(supplier->name) = getStr();
     replaceSpaces(supplier->name);
 
     printf("Enter supplier code (6 digits): ");

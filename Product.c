@@ -37,14 +37,14 @@ void initProductManager(ProductManager* manager) {
 	} while (choice != 'n' && choice != 'N');
 }
 
-Product* addProduct(ProductManager* manager )
-{
-	manager->productArr = (Product**)realloc(manager->productArr, (manager->numOfProducts + 1) * sizeof(Product*));
-	if (!manager->productArr)
-	{
-		printf("Memory allocation for product list failed failed.\n");
+Product* addProduct(ProductManager* manager) {
+	Product** newArr = (Product**)realloc(manager->productArr, (manager->numOfProducts + 1) * sizeof(Product*));
+	if (!newArr) {
+		printf("Memory allocation for product list failed.\n");
 		return NULL;
 	}
+	manager->productArr = newArr;
+
 	Product* product = (Product*)malloc(sizeof(Product));
 	if (!product) {
 		printf("Memory allocation for product failed.\n");
@@ -53,22 +53,36 @@ Product* addProduct(ProductManager* manager )
 
 	product->nameOfSupers = NULL;
 	product->numOfSupers = 0;
+	product->supplier = NULL;
 
 	initProductInfo(product);
-	printf("please enter expiry date:\n");
-	while (!initDate(product->exp))
-	{
-		printf("please enter expiry date:\n");
+
+	product->exp = (Date*)malloc(sizeof(Date));
+	if (!product->exp) {
+		printf("Memory allocation for expiry date failed.\n");
+		free(product);
+		return NULL;
 	}
-	printf("please enter manufacture date:\n");
-	while (!initDate(product->mfg))
-	{
-		printf("please enter manufacture date:\n");
+	printf("Please enter expiry date:\n");
+	while (!initDate(product->exp)) {
+		printf("Invalid date. Please enter expiry date again:\n");
 	}
 
-	printf("please enter supplier name:");
-	scanf("%s", &product->supplier);
+	product->mfg = (Date*)malloc(sizeof(Date));
+	if (!product->mfg) {
+		printf("Memory allocation for manufacture date failed.\n");
+		free(product->exp);
+		free(product);
+		return NULL;
+	}
+	printf("Please enter manufacture date:\n");
+	while (!initDate(product->mfg)) {
+		printf("Invalid date. Please enter manufacture date again:\n");
+	}
+
 	getchar();
+	printf("Please enter supplier name: ");
+	product->supplier = getStr();
 
 	manager->productArr[manager->numOfProducts] = product;
 	manager->numOfProducts++;
@@ -173,7 +187,7 @@ void doPrintSupplierWithProductName(ProductManager* manager)
 	getchar();
 	for (size_t i = 0; i < manager->numOfProducts; i++)
 	{
-		if (!strcmp(manager->productArr[i]->specs->productCode, choice))
+		if (!strcmp(manager->productArr[i]->specs->productName, choice))
 		{
 			printf("%s", manager->productArr[i]->supplier);
 			return;
@@ -187,7 +201,7 @@ void doPrintProductsWithProductType(ProductManager* manager)
 {
 	int choice;
 	printf("please enter product type (1 FOOD , 2 CLEANING , 3 GENERAL) : ");
-	scanf("%s", &choice);
+	scanf("%d", &choice);
 	getchar();
 	for (size_t i = 0; i < manager->numOfProducts; i++)
 	{
@@ -236,12 +250,23 @@ int isProductCode(ProductManager* manager)
 
 void printProduct(Product* product)
 {
-	printf("%s %d\n", product->specs->productName, product->specs->productCode);
+	char* ptr = product->specs->productName;
+	while (*ptr != '\0') {
+		if (*ptr == '\n') {
+			*ptr = '\0';
+			break;
+		}
+		ptr++;
+	}
+	printf("%s | %d|\n", product->specs->productName, product->specs->productCode);
 }
+
 void printProductManager(ProductManager* manager)
 {
+	printf("\n|supermarket name | supermarket code|\n");
 	for (size_t i = 0; i < manager->numOfProducts; i++)
 	{
+		printf("%d :|", (int)i + 1);
 		printProduct(manager->productArr[i]);
 	}
 }

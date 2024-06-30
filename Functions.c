@@ -23,7 +23,7 @@ void initProductInfo(Product* product) {
     }
     printf("initializing new product:\n");
 
-    printf("\nplease enter product name:\n");
+    printf("please enter product name: ");
     fgets(newInfo->productName, MAX_NAME, stdin);
     replaceSpaces(newInfo->productName);
 
@@ -39,7 +39,7 @@ void initProductInfo(Product* product) {
 
     int choice;
     do {
-        printf("please enter product type (1 for FOOD, 2 for CLEANING, 3 for GENERAL):\n");
+        printf("please enter product type (1 for FOOD, 2 for CLEANING, 3 for GENERAL): ");
         if (scanf("%d", &choice) == 1 && getchar()) {
             if (choice == FOOD || choice == CLEANING || choice == GENERAL) {
                 newInfo->type =(Type*)&choice;
@@ -118,10 +118,9 @@ Date* initDate() {
 char* getStr()
 {
     char temp[MAX_NAME];
-    scanf("%s", &temp);
+    fgets(temp,MAX_NAME,stdin);
 
     char* str = temp;
-    getchar();
     toupper(*str);
     while (!str)
     {
