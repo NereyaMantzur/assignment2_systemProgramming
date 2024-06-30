@@ -1,19 +1,36 @@
-#ifndef SUPPLIER_H
-#define SUPPLIER_H
+#ifndef _SUPPLIER_H
+#define _SUPPLIER_H
 
-#include "Product.h"
+#define MAX_NAME_LENGTH 255
 
-typedef struct
-{
-	char* supplierName;
-	int supplierCode;
+struct Product;
 
-}Supplier;
+typedef struct {
+	char name[MAX_NAME_LENGTH];
+	int code;
+	Product** productsArr;
+	int numOfProducts;
+} Supplier;
 
-void addProdcutToSupplier(Product *productPtr , char* supplierStr);
-void deleteProdcutFromSupplier(Product* productPtr);
-int isProductInSupplier(char* productStr , int productCode);
-int isProductFromSupplier(char* productStr, int productCode , char* supplierStr);
+typedef struct {
+	Supplier** suppliers;
+	int numOfSuppliers;
+} SupplierManager;
 
+void initSupplierManager(SupplierManager* manager);
 
-#endif // !SUPPLIER_H
+void addProdcutToSupplier(Product* add, SupplierManager* manager);
+
+int addSupplier(SupplierManager* manager);
+int removeSupplier(SupplierManager* manager, Supplier* delete);
+int updateSupplier(SupplierManager* manager, Supplier* update);
+Supplier* findSupplierByNameOrCode(SupplierManager* manager, char* str, int code);
+
+int isProductFromSupplier(ProductManager* managar, Supplier* supplier);
+int isProductInSupplier(Product* add, SupplierManager* manager);
+void deleteProdcutFromSupplier(Product* add, SupplierManager* manager);
+
+void printSupplier(Supplier* supplier);
+void printSupplierManager(SupplierManager* manager);
+
+#endif // !_SUPPLIER_H

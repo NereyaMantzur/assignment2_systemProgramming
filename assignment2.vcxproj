@@ -130,18 +130,14 @@
     <ClInclude Include="Functions.h" />
     <ClInclude Include="Product.h" />
     <ClInclude Include="Supermarket.h" />
-    <ClInclude Include="SupermarketManager.h" />
     <ClInclude Include="Supplier.h" />
-    <ClInclude Include="SuppliersManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Functions.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="Product.c" />
     <ClCompile Include="Supermarket.c" />
-    <ClCompile Include="SupermarketManager.c" />
     <ClCompile Include="Supplier.c" />
-    <ClCompile Include="SuppliersManager.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

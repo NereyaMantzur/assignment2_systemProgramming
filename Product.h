@@ -1,41 +1,54 @@
-#ifndef PRODUCT_H
-#define PRODUCT_H
+#ifndef _PRODUCT_H
+#define _PRODUCT_H
 
-typedef enum
+
+#define MAX_NAME 255
+typedef enum 
 {
-	FOOD, CLEANING, GENERAL
-}ProductType;
+	FOOD = 1, CLEANING, GENERAL
+}Type;
 
 typedef struct
 {
-	char* day;
-	char* month;
-	char* year;
+	Type* type;
+    char productName[MAX_NAME];
+	int productCode;
+}productInfo;
 
+typedef struct
+{
+     int day;
+     int month;
+     int year;
 }Date;
 
-typedef struct
-{
-	char* superMarketNames;
-	char* supplierNames;
-	const ProductType type;
-	const char* productName;
-	const int porductCode;
-	const Date mfg;
-	const Date exp;
-}Product;
+typedef struct {
+    char** nameOfSupers;
+    int numOfSupers;
+    char* supplier;
+    productInfo* specs;
+    Date* mfg;
+    Date* exp;
+} Product;
 
-void addProdcutToSupermarket(const char* pName ,const char* superName);
-void deleteProdcutFromSupermarket(const char* pName);
-int isProductInSupermarket(const char* pName,const char* pCode,const char* superName);
-void doPrintSupermarketWithProductCode();
-void doPrintSupermarketWithProductName();
-void doPrintSuppliersWithProductCode();
-void doPrintSupplierWithProductName();
-void doPrintSupplierWithProductCode();
-void doPrintProductsWithProductType();
-char* isProductType(const int pCode ,const char* pName);
-int isProductCode(const char* pName);
+typedef struct {
+    Product** productArr;
+    int numOfProducts;
+} ProductManager;
+
+void initProductManager(ProductManager* manager);
+Product* addProduct(ProductManager* manager);
+void deleteProdcutFromSupermarket(Product* product, char* delete);
+void doPrintSupermarketWithProductCode(ProductManager* manager);
+void doPrintSupermarketWithProductName(ProductManager* manager);
+void doPrintSupplierWithProductCode(ProductManager* manager);
+void doPrintSupplierWithProductName(ProductManager* manager);
+void doPrintProductsWithProductType(ProductManager* manager);
+
+int isProductType(ProductManager* manager);
+int isProductCode(ProductManager* manager);
 
 
-#endif // !PRODUCT_H
+void printProduct(Product* product);
+void printProductManager(ProductManager* manager);
+#endif // !_PRODUCT_H

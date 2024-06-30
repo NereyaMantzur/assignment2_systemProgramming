@@ -18,16 +18,10 @@
     <ClInclude Include="Supermarket.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SupermarketManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Product.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Supplier.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SuppliersManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Functions.h">
@@ -41,16 +35,10 @@
     <ClCompile Include="Supermarket.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SupermarketManager.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Product.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Supplier.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SuppliersManager.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Functions.c">

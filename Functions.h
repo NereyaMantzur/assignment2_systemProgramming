@@ -1,18 +1,17 @@
-#ifndef FUNCTIONS_H
-#define FUNCTIONS_H
+#ifndef _FUNCTIONS_H
+#define _FUNCTIONS_H
 
-#include "SuppliersManager.h"
-#include "SupermarketManager.h"
+#include "Product.h"
+#include "Supplier.h"
+#include "Supermarket.h"
 
-void getDate();
-void getSuperAdress();
-void printSuper();
-void printSuperArr();
-void printSupplier();
-void printSupplierArr();
+#define MAX_NAME_LENGTH 255
 
-void initSuppliers(SupplierManager* suppliers);
-void initSupers();
+void replaceSpaces(char* str);
+void initProductInfo(Product* product);
+Date* initDate();
+int isLeapYear(int year);
+int isValidDate(Date* date);
+char* getStr();
 
-
-#endif // !FUNCTIONS_H
+#endif // !_FUNCTIONS_H

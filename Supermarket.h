@@ -1,18 +1,36 @@
-#ifndef SUPERMARKET_H
-#define SUPERMARKET_H
+#ifndef _SUPERMARKET_H
+#define _SUPERMARKET_H
 
-typedef struct
-{
-	char name[50];
-	const char* superName;
-	const char* superAdress;
-	const int superCode;
+#define MAX_NAME_LENGTH 255
+#define MAX_ADDRESS_LENGTH 255
 
-}SuperMarket;
+typedef struct {
+    char name[MAX_NAME_LENGTH];
+    char address[MAX_ADDRESS_LENGTH];
+    int code;
+	Product** productsArr;
+    int numOfProducts;
+} Supermarket;
 
-int isSameSuprmarket(SuperMarket *super1Ptr, SuperMarket *super2Ptr);
-int isSupermarketName(SuperMarket *superPtr , char * superStr);
-int isSupermarketCode(SuperMarket *superPtr , int superCode);
+typedef struct {
+    Supermarket** supermarkets;
+    int numOfSupermarkets;
+} SupermarketManager;
 
+void initSupermarketManager(SupermarketManager* manager);
 
-#endif // !SUPERMARKET_H
+int isSameSuprmarket(Supermarket* super1, Supermarket* super2);
+int isSupermarketName(Supermarket* super, char* nameStr);
+int isSupermarketCode(Supermarket* super, int code);
+
+void addProdcutToSupermarket(Product* add, SupermarketManager* manager);
+int isProductInSupermarket(Product* product, Supermarket* super);
+int addSupermarket(SupermarketManager* manager);
+int removeSupermarket(SupermarketManager* manager, Supermarket* delete);
+int updateSupermarket(SupermarketManager* manager, Supermarket* update);
+Supermarket* findSupermarketByNameOrCode(SupermarketManager* manager, char* str, int code);
+
+void printSupermarket(Supermarket* super);
+void printSupermarketManager(SupermarketManager* manager);
+
+#endif // !_SUPERMARKET_H
