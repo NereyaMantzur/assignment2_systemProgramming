@@ -5,16 +5,16 @@
 #define MAX_ADDRESS_LENGTH 255
 
 typedef struct {
-    char name[MAX_NAME_LENGTH];
-    char address[MAX_ADDRESS_LENGTH];
-    int code;
+	char name[MAX_NAME_LENGTH];
+	char address[MAX_ADDRESS_LENGTH];
+	int code;
 	Product** productsArr;
-    int numOfProducts;
+	int numOfProducts;
 } Supermarket;
 
 typedef struct {
-    Supermarket** supermarkets;
-    int numOfSupermarkets;
+	Supermarket** supermarkets;
+	int numOfSupermarkets;
 } SupermarketManager;
 
 void initSupermarketManager(SupermarketManager* manager);

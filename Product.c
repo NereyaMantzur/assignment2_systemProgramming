@@ -130,7 +130,7 @@ void doPrintSupermarketWithProductCode(ProductManager* manager)
 		{
 			for (size_t j = 0; j < manager->productArr[i]->numOfSupers; j++)
 			{
-			printf("%s\n",manager->productArr[i]->nameOfSupers[j]);
+				printf("%s\n", manager->productArr[i]->nameOfSupers[j]);
 			}
 		}
 	}
@@ -239,7 +239,7 @@ int isProductCode(ProductManager* manager)
 	char* name = getStr();
 	for (size_t i = 0; i < manager->numOfProducts; i++)
 	{
-		if (!strcmp(manager->productArr[i]->specs->productName,name))
+		if (!strcmp(manager->productArr[i]->specs->productName, name))
 		{
 			return manager->productArr[i]->specs->productCode;
 		}
@@ -247,7 +247,7 @@ int isProductCode(ProductManager* manager)
 	return -1;
 }
 
-Product* findProductByIndex(ProductManager* manager ,int index)
+Product* findProductByIndex(ProductManager* manager, int index)
 {
 	if (index < 0 || index > manager->numOfProducts)
 	{

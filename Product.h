@@ -3,7 +3,7 @@
 
 
 #define MAX_NAME 255
-typedef enum 
+typedef enum
 {
 	FOOD = 1, CLEANING, GENERAL
 }Type;
@@ -11,29 +11,29 @@ typedef enum
 typedef struct
 {
 	Type* type;
-    char productName[MAX_NAME];
+	char productName[MAX_NAME];
 	int productCode;
 }productInfo;
 
 typedef struct
 {
-     int day;
-     int month;
-     int year;
+	int day;
+	int month;
+	int year;
 }Date;
 
 typedef struct {
-    char** nameOfSupers;
-    int numOfSupers;
-    char* supplier;
-    productInfo* specs;
-    Date* mfg;
-    Date* exp;
+	char** nameOfSupers;
+	int numOfSupers;
+	char* supplier;
+	productInfo* specs;
+	Date* mfg;
+	Date* exp;
 } Product;
 
 typedef struct {
-    Product** productArr;
-    int numOfProducts;
+	Product** productArr;
+	int numOfProducts;
 } ProductManager;
 
 void initProductManager(ProductManager* manager);
