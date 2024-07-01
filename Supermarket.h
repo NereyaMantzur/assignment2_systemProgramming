@@ -23,7 +23,7 @@ int isSameSuprmarket(Supermarket* super1, Supermarket* super2);
 int isSupermarketName(Supermarket* super, char* nameStr);
 int isSupermarketCode(Supermarket* super, int code);
 
-void addProdcutToSupermarket(Product* add, SupermarketManager* manager);
+void addProductToSupermarket(Product* add, SupermarketManager* manager);
 int isProductInSupermarket(Product* product, Supermarket* super);
 int addSupermarket(SupermarketManager* manager);
 int removeSupermarket(SupermarketManager* manager, Supermarket* delete);

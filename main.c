@@ -16,13 +16,18 @@ void q2(SupermarketManager* supermarketManager, SupplierManager* supplierManager
     printf("2 - for adding product to a supplier :\n");
     scanf("%d", &choice);
     printProductManager(productManager);
+    printf("please choose number of product: \n");
+    scanf("%d", &choice);
+    getchar();
     switch (choice)
     {
     case 1:
-        addProdcutToSupermarket(addProduct(productManager), supermarketManager);
+        printSupermarketManager(supermarketManager);
+        addProductToSupermarket(findProductByIndex(productManager,choice), supermarketManager);
         break;
     case 2:
-        addProdcutToSupplier(addProduct(productManager), supplierManager);
+        printSupplierManager(supplierManager);
+        addProductToSupplier(findProductByIndex(productManager, choice), supplierManager);
         break;
     default:
         break;

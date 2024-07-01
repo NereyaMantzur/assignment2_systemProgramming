@@ -36,34 +36,47 @@ void initSupplierManager(SupplierManager* manager) {
     } while (choice != 'n' && choice != 'N');
 }
 
-void addProdcutToSupplier(Product* add , SupplierManager* manager)
-{
-    if (!add || !manager)
-    {
+void addProductToSupplier(Product* add, SupplierManager* manager) {
+    if (!add || !manager) {
         return;
     }
-    else
-    {
-        printf("please enter supplier name\n");
-		char* str = getStr();
-        for (size_t i = 0; i < manager->numOfSuppliers; i++)
-        {
-            for (size_t j = 0; j < manager->suppliers[i]->numOfProducts; j++)
-            {
-                if (!strcmp(manager->suppliers[i]->name , str))
-                {
-                    printf("product exits already\n");
+
+    printf("Please enter supplier name:\n");
+    char* str = getStr();
+    int supplierFound = 0;
+
+    for (size_t i = 0; i < manager->numOfSuppliers; i++) {
+        Supplier* supplier = manager->suppliers[i];
+        if (strcmp(supplier->name, str) == 0) {
+            supplierFound = 1;
+            // Check if the product already exists in the supplier's products
+            for (size_t j = 0; j < supplier->numOfProducts; j++) {
+                if (supplier->productsArr[j] == add) {
+                    printf("Product already exists for this supplier.\n");
+                    free(str);
                     return;
                 }
-                else
-                {
-                    manager->suppliers[i]->numOfProducts++;
-                    manager->suppliers[i]->productsArr = (Product**)realloc(manager->suppliers[i]->productsArr, manager->suppliers[i]->numOfProducts * sizeof(Product*));
-					manager->suppliers[i]->productsArr[-1] = add;
-                }
             }
+            // Add product to the supplier's products array
+            supplier->numOfProducts++;
+            Product** newArr = (Product**)realloc(supplier->productsArr, supplier->numOfProducts * sizeof(Product*));
+            if (!newArr) {
+                printf("Memory allocation for product list failed.\n");
+                free(str);
+                return;
+            }
+            supplier->productsArr = newArr;
+            supplier->productsArr[supplier->numOfProducts - 1] = add;
+            printf("Product added successfully to the supplier.\n");
+            free(str);
+            return;
         }
     }
+
+    if (!supplierFound) {
+        printf("Supplier not found.\n");
+    }
+    free(str);
 }
 
 void deleteProdcutFromSupplier(Product* add, SupplierManager* manager)
@@ -83,7 +96,7 @@ void deleteProdcutFromSupplier(Product* add, SupplierManager* manager)
 		}
 	}
 	printf("Product not found\n");
-	return 0;
+	return;
 }
 
 int isProductInSupplier(Product* add, SupplierManager* manager)
@@ -124,7 +137,7 @@ int addSupplier(SupplierManager* manager) {
 
 
     printf("Enter supplier name: ");
-    *(supplier->name) = getStr();
+    *(supplier->name) = *getStr();
     replaceSpaces(supplier->name);
 
     printf("Enter supplier code (6 digits): ");
@@ -239,9 +252,9 @@ void printSupplier(Supplier* supplier)
 void printSupplierManager(SupplierManager* manager)
 {
     printf("supermarket name - supermarket code:\n");
-    for (size_t i = 0; i < manager->numOfSuppliers; i++)
+    for (int i = 0; i < manager->numOfSuppliers; i++)
     {
         printf("%d : ", i + 1);
-        printSupermarket(manager->suppliers[i]);
+        printSupplier(manager->suppliers[i]);
     }
 }

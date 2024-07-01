@@ -44,10 +44,10 @@ void doPrintSupermarketWithProductName(ProductManager* manager);
 void doPrintSupplierWithProductCode(ProductManager* manager);
 void doPrintSupplierWithProductName(ProductManager* manager);
 void doPrintProductsWithProductType(ProductManager* manager);
+Product* findProductByIndex(ProductManager* manager, int index);
 
 int isProductType(ProductManager* manager);
 int isProductCode(ProductManager* manager);
-
 
 void printProduct(Product* product);
 void printProductManager(ProductManager* manager);

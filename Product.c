@@ -228,7 +228,7 @@ int isProductType(ProductManager* manager)
 	{
 		if (!strcmp(manager->productArr[i]->specs->productName, name) || manager->productArr[i]->specs->productCode == code)
 		{
-			return manager->productArr[i]->specs->type;
+			return *(manager->productArr[i]->specs->type);
 		}
 	}
 	return -1;
@@ -247,6 +247,18 @@ int isProductCode(ProductManager* manager)
 	return -1;
 }
 
+Product* findProductByIndex(ProductManager* manager ,int index)
+{
+	if (index < 0 || index > manager->numOfProducts)
+	{
+		printf("error! invalid choice");
+		return NULL;
+	}
+	else
+	{
+		return manager->productArr[index - 1];
+	}
+}
 
 void printProduct(Product* product)
 {

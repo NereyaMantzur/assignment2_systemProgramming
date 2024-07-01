@@ -19,7 +19,7 @@ typedef struct {
 
 void initSupplierManager(SupplierManager* manager);
 
-void addProdcutToSupplier(Product* add, SupplierManager* manager);
+void addProductToSupplier(Product* add, SupplierManager* manager);
 
 int addSupplier(SupplierManager* manager);
 int removeSupplier(SupplierManager* manager, Supplier* delete);
