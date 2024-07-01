@@ -3,7 +3,6 @@
 
 #define MAX_NAME_LENGTH 255
 
-struct Product;
 
 typedef struct {
 	char name[MAX_NAME_LENGTH];

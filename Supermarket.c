@@ -316,3 +316,11 @@ void printSupermarketManager(SupermarketManager* manager)
         printSupermarket(manager->supermarkets[i]);
     }
 }
+
+void printSupermarketProducts(Supermarket* super)
+{
+    for (size_t i = 0; i < super->numOfProducts; i++)
+    {
+        printProduct(super->productsArr[i]);
+    }
+}

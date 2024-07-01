@@ -45,11 +45,11 @@ void q3(SupermarketManager* manager)
     int code;
     printSupermarketManager(manager);
     printf("enter supermarket name:\n");
-    scanf("%s", &name);
+	scanf("%s", &name);
     getchar();
     printf("enter supermarket code:\n");
 	scanf("%d", &code);
-    printSupermarket(findSupermarketByNameOrCode(manager, name, code));
+    printSupermarketProducts(findSupermarketByNameOrCode(manager, name, code));
 }
 
 void q5(SupplierManager* manager)

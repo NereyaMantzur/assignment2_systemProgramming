@@ -32,5 +32,7 @@ Supermarket* findSupermarketByNameOrCode(SupermarketManager* manager, char* str,
 
 void printSupermarket(Supermarket* super);
 void printSupermarketManager(SupermarketManager* manager);
+void printSupermarketProducts(Supermarket* super);
+
 
 #endif // !_SUPERMARKET_H
