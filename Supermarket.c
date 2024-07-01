@@ -68,39 +68,47 @@ void addProductToSupermarket(Product* add, SupermarketManager* manager) {
 
     printf("Please enter supermarket name:\n");
     char* str = getStr();
+    if (!str) {
+        printf("Failed to read supermarket name.\n");
+        return;
+    }
+
     int supermarketFound = 0;
 
-    for (size_t i = 0; i < manager->numOfSupermarkets; i++) {
+    for (int i = 0; i < manager->numOfSupermarkets; i++) {
         Supermarket* supermarket = manager->supermarkets[i];
         if (strcmp(supermarket->name, str) == 0) {
             supermarketFound = 1;
             for (size_t j = 0; j < supermarket->numOfProducts; j++) {
-                if (supermarket->productsArr[j] == add) {
-                    printf("Product already exists in this supermarket.\n");
-                    free(str);
+                if (strcmp(supermarket->productsArr[j]->specs->productName, add->specs->productName) == 0) {
+                    printf("Product already exists in the supermarket.\n");
+                    free(str); 
                     return;
                 }
             }
-            supermarket->numOfProducts++;
-            Product** newArr = (Product**)realloc(supermarket->productsArr, supermarket->numOfProducts * sizeof(Product*));
-            if (!newArr) {
-                printf("Memory allocation for product list failed.\n");
-                free(str);
+
+            Product** temp = realloc(supermarket->productsArr, (supermarket->numOfProducts + 1) * sizeof(Product*));
+            if (!temp) {
+                printf("Memory allocation failed.\n");
+                free(str); 
                 return;
             }
-            supermarket->productsArr = newArr;
-            supermarket->productsArr[supermarket->numOfProducts - 1] = add;
-            printf("Product added successfully to the supermarket.\n");
-            free(str);
+            supermarket->productsArr = temp;
+            supermarket->productsArr[supermarket->numOfProducts] = add;
+            supermarket->numOfProducts++;
+            printf("Product added successfully.\n");
+            free(str); 
             return;
         }
     }
+
     if (!supermarketFound) {
         printf("Supermarket not found.\n");
     }
-    free(str);
-    return;
+
+    free(str); 
 }
+
 
 int isProductInSupermarket(Product* product, Supermarket* super)
 {
