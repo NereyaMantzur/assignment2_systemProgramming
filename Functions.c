@@ -42,7 +42,7 @@ void initProductInfo(Product* product) {
         printf("please enter product type (1 for FOOD, 2 for CLEANING, 3 for GENERAL): ");
         if (scanf("%d", &choice) == 1 && getchar()) {
             if (choice == FOOD || choice == CLEANING || choice == GENERAL) {
-                newInfo->type =(Type*)&choice;
+                newInfo->type =(Type*)choice;
                 break;
             }
         }
@@ -115,16 +115,21 @@ Date* initDate() {
     return date;
 }
 
-char* getStr()
-{
+char* getStr() {
     char temp[MAX_NAME];
-    fgets(temp,MAX_NAME,stdin);
+    fgets(temp, MAX_NAME, stdin);
 
-    char* str = temp;
-    toupper(*str);
-    while (!str)
-    {
-        tolower(*(++str));
+    temp[strcspn(temp, "\n")] = '\0';
+
+    char* str = malloc(strlen(temp) + 1);
+    strcpy(str, temp);
+
+    if (*str) {
+        *str = toupper(*str);
+        for (char* p = str + 1; *p; ++p) {
+            *p = tolower(*p);
+        }
     }
+
     return str;
 }

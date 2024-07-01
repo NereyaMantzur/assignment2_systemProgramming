@@ -275,7 +275,7 @@ void printProduct(Product* product)
 
 void printProductManager(ProductManager* manager)
 {
-	printf("\n|supermarket name | supermarket code|\n");
+	printf("\n|product name | product code|\n");
 	for (size_t i = 0; i < manager->numOfProducts; i++)
 	{
 		printf("%d :|", (int)i + 1);

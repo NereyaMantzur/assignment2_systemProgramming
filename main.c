@@ -15,17 +15,22 @@ void q2(SupermarketManager* supermarketManager, SupplierManager* supplierManager
     printf("1 - for adding product to a supermarket :\n");
     printf("2 - for adding product to a supplier :\n");
     scanf("%d", &choice);
-    printProductManager(productManager);
-    printf("please choose number of product: \n");
-    scanf("%d", &choice);
-    getchar();
+
     switch (choice)
     {
     case 1:
+        printProductManager(productManager);
+        printf("please choose number of product: \n");
+        scanf("%d", &choice);
+        getchar();
         printSupermarketManager(supermarketManager);
         addProductToSupermarket(findProductByIndex(productManager,choice), supermarketManager);
         break;
     case 2:
+        printProductManager(productManager);
+        printf("please choose number of product: \n");
+        scanf("%d", &choice);
+        getchar();
         printSupplierManager(supplierManager);
         addProductToSupplier(findProductByIndex(productManager, choice), supplierManager);
         break;
@@ -90,13 +95,13 @@ void q7(SupplierManager* manager)
     printf("please choose Product Type:\n");
     printf("1 - FOOD\n");
     printf("2 - CLEANING\n");
-    printf("1 - GENERAL\n");
+    printf("3 - GENERAL\n");
     scanf("%d", &choice);
     for (size_t i = 0; i < manager->numOfSuppliers; i++)
     {
         for (size_t j = 0; j < manager->suppliers[i]->numOfProducts; j++)
         {
-            if (*(manager->suppliers[i]->productsArr[j]->specs->type) == choice)
+            if (((int)manager->suppliers[i]->productsArr[j]->specs->type) == choice)
             {
                 printProduct(manager->suppliers[i]->productsArr[j]);
             }

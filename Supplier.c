@@ -49,15 +49,13 @@ void addProductToSupplier(Product* add, SupplierManager* manager) {
         Supplier* supplier = manager->suppliers[i];
         if (strcmp(supplier->name, str) == 0) {
             supplierFound = 1;
-            // Check if the product already exists in the supplier's products
             for (size_t j = 0; j < supplier->numOfProducts; j++) {
-                if (supplier->productsArr[j] == add) {
+                if (supplier->productsArr && supplier->productsArr[j] == add) {
                     printf("Product already exists for this supplier.\n");
                     free(str);
                     return;
                 }
             }
-            // Add product to the supplier's products array
             supplier->numOfProducts++;
             Product** newArr = (Product**)realloc(supplier->productsArr, supplier->numOfProducts * sizeof(Product*));
             if (!newArr) {
@@ -135,9 +133,10 @@ int addSupplier(SupplierManager* manager) {
         return 0;
 	}
 
-
+    supplier->numOfProducts = 0;
+    supplier->productsArr = NULL;
     printf("Enter supplier name: ");
-    *(supplier->name) = *getStr();
+    strcpy(supplier->name , getStr());
     replaceSpaces(supplier->name);
 
     printf("Enter supplier code (6 digits): ");
@@ -251,7 +250,7 @@ void printSupplier(Supplier* supplier)
 
 void printSupplierManager(SupplierManager* manager)
 {
-    printf("supermarket name - supermarket code:\n");
+    printf("supplier name - supplier code:\n");
     for (int i = 0; i < manager->numOfSuppliers; i++)
     {
         printf("%d : ", i + 1);

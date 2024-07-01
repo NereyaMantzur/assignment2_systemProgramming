@@ -75,29 +75,38 @@ void addProductToSupermarket(Product* add, SupermarketManager* manager) {
 
     int supermarketFound = 0;
 
-    for (int i = 0; i < manager->numOfSupermarkets; i++) {
+    for (size_t i = 0; i < manager->numOfSupermarkets; i++) {
         Supermarket* supermarket = manager->supermarkets[i];
         if (strcmp(supermarket->name, str) == 0) {
             supermarketFound = 1;
+            if (!supermarket->productsArr) {
+                supermarket->productsArr = malloc(sizeof(Product*));
+                if (!supermarket->productsArr) {
+                    printf("Memory allocation failed.\n");
+                    free(str);
+                    return;
+                }
+                supermarket->numOfProducts = 0;
+            }
             for (size_t j = 0; j < supermarket->numOfProducts; j++) {
-                if (strcmp(supermarket->productsArr[j]->specs->productName, add->specs->productName) == 0) {
+                if (supermarket->productsArr[j] &&
+                    strcmp(supermarket->productsArr[j]->specs->productName, add->specs->productName) == 0) {
                     printf("Product already exists in the supermarket.\n");
-                    free(str); 
+                    free(str);
                     return;
                 }
             }
-
             Product** temp = realloc(supermarket->productsArr, (supermarket->numOfProducts + 1) * sizeof(Product*));
             if (!temp) {
                 printf("Memory allocation failed.\n");
-                free(str); 
+                free(str);
                 return;
             }
             supermarket->productsArr = temp;
             supermarket->productsArr[supermarket->numOfProducts] = add;
             supermarket->numOfProducts++;
             printf("Product added successfully.\n");
-            free(str); 
+            free(str);
             return;
         }
     }
@@ -106,7 +115,7 @@ void addProductToSupermarket(Product* add, SupermarketManager* manager) {
         printf("Supermarket not found.\n");
     }
 
-    free(str); 
+    free(str);
 }
 
 
@@ -159,6 +168,8 @@ char* initAddress()
 
 int addSupermarket(SupermarketManager* manager) {
     Supermarket* supermarket = (Supermarket*)malloc(sizeof(Supermarket));
+    supermarket->productsArr = NULL;
+    supermarket->numOfProducts = 0;
     if (!supermarket) {
         printf("Memory allocation for supermarket failed.\n");
         return 0;
@@ -298,7 +309,7 @@ void printSupermarket(Supermarket* super)
 
 void printSupermarketManager(SupermarketManager* manager)
 {
-    printf("\n=====|supermarket name | supermarket code|=====\n");
+    printf("\n|supermarket name | supermarket code|\n");
     for (size_t i = 0; i < manager->numOfSupermarkets; i++)
     {
         printf("%d : |", (int)i + 1);
