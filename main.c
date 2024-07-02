@@ -4,12 +4,11 @@
 #include <string.h>
 
 #include "Functions.h"
-//v
 void q1(SupermarketManager* supermarketManager)
 {
 	addSupermarket(supermarketManager);
 }
-//v
+
 void q2(SupermarketManager* supermarketManager, SupplierManager* supplierManager, ProductManager* productManager) {
 	int choice;
 	printf("please enter your choice:\n");
@@ -39,7 +38,7 @@ void q2(SupermarketManager* supermarketManager, SupplierManager* supplierManager
 		break;
 	}
 }
-//v
+
 void q3(SupermarketManager* manager)
 {
 	char name[MAX_NAME];
@@ -53,7 +52,7 @@ void q3(SupermarketManager* manager)
 	printf("\n%s products are:\n" , super->name);
 	printSupermarketProducts(super);
 } 
-//v
+
 void q4(SupermarketManager* manager)
 {
 	printf("\nall supermarket info:\n");
