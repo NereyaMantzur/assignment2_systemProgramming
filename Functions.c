@@ -41,7 +41,7 @@ void initProductInfo(Product* product) {
 		printf("please enter product type (1 for FOOD, 2 for CLEANING, 3 for GENERAL): ");
 		if (scanf("%d", &choice) == 1 && getchar()) {
 			if (choice == FOOD || choice == CLEANING || choice == GENERAL) {
-				newInfo->type = (Type*)choice;
+				newInfo->type = (Type*)&choice;
 				break;
 			}
 		}

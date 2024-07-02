@@ -89,7 +89,7 @@ void q6(SupermarketManager* manager)
 	{
 		for (size_t j = 0; j < manager->supermarkets[i]->numOfProducts; j++)
 		{
-			if ((int)manager->supermarkets[i]->productsArr[j]->specs->type == choice)
+			if (manager->supermarkets[i]->productsArr[j]->specs->type == (Type*)&choice)
 			{
 				printProduct(manager->supermarkets[i]->productsArr[j]);
 			}
@@ -105,12 +105,13 @@ void q7(SupplierManager* manager)
 	printf("2 - CLEANING\n");
 	printf("3 - GENERAL\n");
 	scanf("%d", &choice);
+	;
 	printf("\nall products of a specific type in all suppliers:\n");
 	for (size_t i = 0; i < manager->numOfSuppliers; i++)
 	{
 		for (size_t j = 0; j < manager->suppliers[i]->numOfProducts; j++)
 		{
-			if (((int)manager->suppliers[i]->productsArr[j]->specs->type) == choice)
+			if (manager->suppliers[i]->productsArr[j]->specs->type == (Type*)&choice)
 			{
 				printProduct(manager->suppliers[i]->productsArr[j]);
 			}

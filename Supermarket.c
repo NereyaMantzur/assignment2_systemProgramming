@@ -138,12 +138,16 @@ int isProductInSupermarket(Product* product, Supermarket* super)
 	return 0;
 }
 
-char* initAddress()
-{
-	char country[MAX_NAME];
+char* initAddress() {
+	char* country = (char*)malloc(MAX_NAME * 4 * sizeof(char)); // Allocate memory for the concatenated string
 	char city[MAX_NAME];
 	char street[MAX_NAME];
 	char number[MAX_NAME];
+
+	if (country == NULL) {
+		printf("Memory allocation failed\n");
+		return NULL; // Handle memory allocation failure
+	}
 
 	printf("please enter country: ");
 	strcpy(country, getStr());
@@ -151,7 +155,7 @@ char* initAddress()
 
 	printf("please enter city: ");
 	strcpy(city, getStr());
-	strcat(city,"#");
+	strcat(city, "#");
 
 	printf("please enter street: ");
 	strcpy(street, getStr());
