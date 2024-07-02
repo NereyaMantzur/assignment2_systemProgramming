@@ -25,7 +25,6 @@ void initProductInfo(Product* product) {
 
 	printf("please enter product name: ");
 	fgets(newInfo->productName, MAX_NAME, stdin);
-	replaceSpaces(newInfo->productName);
 
 	printf("Enter product code (6 digits): ");
 	while (1) {

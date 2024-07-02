@@ -4,11 +4,12 @@
 #include <string.h>
 
 #include "Functions.h"
+//v
 void q1(SupermarketManager* supermarketManager)
 {
 	addSupermarket(supermarketManager);
 }
-
+//v
 void q2(SupermarketManager* supermarketManager, SupplierManager* supplierManager, ProductManager* productManager) {
 	int choice;
 	printf("please enter your choice:\n");
@@ -38,22 +39,24 @@ void q2(SupermarketManager* supermarketManager, SupplierManager* supplierManager
 		break;
 	}
 }
-
+//v
 void q3(SupermarketManager* manager)
 {
 	char name[MAX_NAME];
 	int code;
 	printSupermarketManager(manager);
 	printf("enter supermarket name:\n");
-	scanf("%s", &name);
-	getchar();
+	strcpy(name, getStr());
 	printf("enter supermarket code:\n");
 	scanf("%d", &code);
-	printSupermarketProducts(findSupermarketByNameOrCode(manager, name, code));
-}
-
+	Supermarket* super = findSupermarketByNameOrCode(manager, name, code);
+	printf("\n%s products are:\n" , super->name);
+	printSupermarketProducts(super);
+} 
+//v
 void q4(SupermarketManager* manager)
 {
+	printf("\nall supermarket info:\n");
 	printSupermarketManager(manager);
 }
 
@@ -63,11 +66,11 @@ void q5(SupplierManager* manager)
 	int code;
 	printSupplierManager(manager);
 	printf("please enter supplier name: ");
-	scanf("%s", &name);
-	getchar();
+	strcpy(name, getStr());
 	printf("please enter supplier code: ");
 	scanf("%d", &code);
 	Supplier* supplier = findSupplierByNameOrCode(manager, name, code);
+	printf("\n%s product are:\n",supplier->name);
 	for (size_t i = 0; i < supplier->numOfProducts; i++)
 	{
 		printProduct(supplier->productsArr[i]);
@@ -82,6 +85,7 @@ void q6(SupermarketManager* manager)
 	printf("2 - CLEANING\n");
 	printf("3 - GENERAL\n");
 	scanf("%d", &choice);
+	printf("\nall products of a specific type in all supermarkets:\n");
 	for (size_t i = 0; i < manager->numOfSupermarkets; i++)
 	{
 		for (size_t j = 0; j < manager->supermarkets[i]->numOfProducts; j++)
@@ -102,6 +106,7 @@ void q7(SupplierManager* manager)
 	printf("2 - CLEANING\n");
 	printf("3 - GENERAL\n");
 	scanf("%d", &choice);
+	printf("\nall products of a specific type in all suppliers:\n");
 	for (size_t i = 0; i < manager->numOfSuppliers; i++)
 	{
 		for (size_t j = 0; j < manager->suppliers[i]->numOfProducts; j++)
@@ -128,9 +133,11 @@ void q8(SupermarketManager* manager)
 	{
 		if ((!strcmp(manager->supermarkets[i]->name, name)) || manager->supermarkets[i]->code == code)
 		{
-			for (size_t j = 0; j < manager->supermarkets[i]->numOfProducts; j++)
+			Supermarket* super = manager->supermarkets[i];
+			printf("\nall product of a specific type in %s: \n",super->name);
+			for (size_t j = 0; j < super->numOfProducts; j++)
 			{
-				printProduct(manager->supermarkets[i]->productsArr[j]);
+				printProduct(super->productsArr[j]);
 			}
 		}
 	}
@@ -155,7 +162,7 @@ int main() {
 		printf("5. Print all products of a supplier\n");
 		printf("6. Print all products of a specific type in supermarkets\n");
 		printf("7. Print all products of a specific type in suppliers\n");
-		printf("8. Print products by type in specific supermarket\n");
+		printf("8. Print products by type in a specific supermarket\n");
 		printf("9. Exit\n");
 
 		printf("Enter your choice: ");

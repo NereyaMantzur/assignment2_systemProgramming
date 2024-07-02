@@ -137,7 +137,6 @@ int addSupplier(SupplierManager* manager) {
 	supplier->productsArr = NULL;
 	printf("Enter supplier name: ");
 	strcpy(supplier->name, getStr());
-	replaceSpaces(supplier->name);
 
 	printf("Enter supplier code (6 digits): ");
 	while (1) {
@@ -220,11 +219,6 @@ int updateSupplier(SupplierManager* manager, Supplier* update)
 Supplier* findSupplierByNameOrCode(SupplierManager* manager, char* str, int code)
 {
 	char* temp = str;
-	while (*str)
-	{
-		*str = toupper(*str);
-		str++;
-	}
 	if (manager->numOfSuppliers == 0)
 	{
 		printf("no supermarket to delete");

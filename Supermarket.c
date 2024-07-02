@@ -147,20 +147,21 @@ char* initAddress()
 
 	printf("please enter country: ");
 	strcpy(country, getStr());
-	country[strlen(country) - 1] = '#';
+	strcat(country, "#");
 
 	printf("please enter city: ");
 	strcpy(city, getStr());
-	city[strlen(city) - 1] = '#';
+	strcat(city,"#");
 
 	printf("please enter street: ");
 	strcpy(street, getStr());
-	street[strlen(street) - 1] = '#';
+	strcat(street, "#");
 
 	printf("please enter number: ");
 	strcpy(number, getStr());
 
 	strcat(country, strcat(city, strcat(street, number)));
+	replaceSpaces(country);
 	return country;
 }
 
@@ -175,11 +176,9 @@ int addSupermarket(SupermarketManager* manager) {
 
 	printf("Enter supermarket name: ");
 	strcpy(supermarket->name, getStr());
-	replaceSpaces(supermarket->name);
 
 	printf("Enter supermarket address: \n");
 	strcpy(supermarket->address, initAddress());
-	replaceSpaces(supermarket->address);
 
 	printf("Enter supermarket code (5 digits): ");
 	while (1) {
@@ -266,14 +265,9 @@ int updateSupermarket(SupermarketManager* manager, Supermarket* update)
 
 Supermarket* findSupermarketByNameOrCode(SupermarketManager* manager, char* str, int code)
 {
-	while (*str)
-	{
-		*str = toupper(*str);
-		str++;
-	}
 	if (manager->numOfSupermarkets == 0)
 	{
-		printf("no supermarket to delete");
+		printf("no supermarket found");
 	}
 	for (size_t i = 0; i < manager->numOfSupermarkets; i++)
 	{
@@ -302,12 +296,12 @@ void printSupermarket(Supermarket* super)
 		}
 		ptr++;
 	}
-	printf("%s | %d|\n", super->name, super->code);
+	printf("%s | %d| %s|\n", super->name, super->code ,super->address);
 }
 
 void printSupermarketManager(SupermarketManager* manager)
 {
-	printf("\n|supermarket name | supermarket code|\n");
+	printf("\n|supermarket name | supermarket code| supermarket address\n");
 	for (size_t i = 0; i < manager->numOfSupermarkets; i++)
 	{
 		printf("%d : |", (int)i + 1);
