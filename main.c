@@ -125,8 +125,7 @@ void q8(SupermarketManager* manager)
 	int code;
 	printSupermarketManager(manager);
 	printf("please choose supermarket name: ");
-	scanf("%s", &name);
-	getchar();
+	strcpy(name,getStr());
 	printf("please enter supermarket code: ");
 	scanf("%d", &code);
 	for (size_t i = 0; i < manager->numOfSupermarkets; i++)
