@@ -7,14 +7,14 @@
 #include "Functions.h"
 
 void initSupplierManager(SupplierManager* manager) {
-	printf("\nInitializing Supplier Manager\n");
+	printf("\n======Initializing Supplier Manager=====\n");
 
 	manager->suppliers = NULL;
 	manager->numOfSuppliers = 0;
 
 	char choice;
 	do {
-		printf("Do you want to add a supplier? (y/n): ");
+		printf("\nDo you want to add a supplier? (y/n): ");
 		scanf(" %c", &choice);
 		getchar();
 
@@ -135,7 +135,7 @@ int addSupplier(SupplierManager* manager) {
 
 	supplier->numOfProducts = 0;
 	supplier->productsArr = NULL;
-	printf("Enter supplier name: ");
+	printf("\nEnter supplier name: ");
 	strcpy(supplier->name, getStr());
 
 	printf("Enter supplier code (6 digits): ");
@@ -239,15 +239,15 @@ Supplier* findSupplierByNameOrCode(SupplierManager* manager, char* str, int code
 
 void printSupplier(Supplier* supplier)
 {
-	printf("%s : %d\n", supplier->name, supplier->code);
+	printf("%-20s|%d\n", supplier->name, supplier->code);
 }
 
 void printSupplierManager(SupplierManager* manager)
 {
-	printf("supplier name - supplier code:\n");
+	printf("\n# |supplier name       | supplier code    \n");
 	for (int i = 0; i < manager->numOfSuppliers; i++)
 	{
-		printf("%d : ", i + 1);
+		printf("%d |", i + 1);
 		printSupplier(manager->suppliers[i]);
 	}
 }

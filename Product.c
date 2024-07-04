@@ -8,14 +8,14 @@
 #include "Functions.h"
 
 void initProductManager(ProductManager* manager) {
-	printf("\nInitializing Product Manager\n");
+	printf("\n=====Initializing Product Manager=====\n");
 
 	manager->productArr = NULL;
 	manager->numOfProducts = 0;
 
 	char choice;
 	do {
-		printf("Do you want to add a product? (y/n): ");
+		printf("\nDo you want to add a product? (y/n): ");
 		scanf(" %c", &choice);
 		getchar();
 
@@ -57,32 +57,32 @@ Product* addProduct(ProductManager* manager) {
 
 	initProductInfo(product);
 
-	product->exp = (Date*)malloc(sizeof(Date));
-	if (!product->exp) {
-		printf("Memory allocation for expiry date failed.\n");
-		free(product);
-		return NULL;
-	}
-	printf("Please enter expiry date:\n");
-	while (!initDate(product->exp)) {
-		printf("Invalid date. Please enter expiry date again:\n");
-	}
+	//product->exp = (Date*)malloc(sizeof(Date));
+	//if (!product->exp) {
+	//	printf("Memory allocation for expiry date failed.\n");
+	//	free(product);
+	//	return NULL;
+	//}
+	//printf("Please enter expiry date:\n");
+	//while (!initDate(product->exp)) {
+	//	printf("Invalid date. Please enter expiry date again:\n");
+	//}
 
-	product->mfg = (Date*)malloc(sizeof(Date));
-	if (!product->mfg) {
-		printf("Memory allocation for manufacture date failed.\n");
-		free(product->exp);
-		free(product);
-		return NULL;
-	}
-	printf("Please enter manufacture date:\n");
-	while (!initDate(product->mfg)) {
-		printf("Invalid date. Please enter manufacture date again:\n");
-	}
+	//product->mfg = (Date*)malloc(sizeof(Date));
+	//if (!product->mfg) {
+	//	printf("Memory allocation for manufacture date failed.\n");
+	//	free(product->exp);
+	//	free(product);
+	//	return NULL;
+	//}
+	//printf("Please enter manufacture date:\n");
+	//while (!initDate(product->mfg)) {
+	//	printf("Invalid date. Please enter manufacture date again:\n");
+	//}
 
-	getchar();
-	printf("Please enter supplier name: ");
-	product->supplier = getStr();
+	//getchar();
+	//printf("Please enter supplier name: ");
+	//product->supplier = getStr();
 
 	manager->productArr[manager->numOfProducts] = product;
 	manager->numOfProducts++;
@@ -270,15 +270,82 @@ void printProduct(Product* product)
 		}
 		ptr++;
 	}
-	printf("%s | %d|\n", product->specs->productName, product->specs->productCode);
+	char typeStr[10]="";
+	switch (* product->specs->type)
+	{
+	case FOOD:
+		strcat(typeStr, "FOOD");
+		break;
+	case CLEANING:
+		strcat(typeStr, "CLEANING");
+		break;
+	case GENERAL:
+		strcat(typeStr, "GENERAL");
+		break;
+	default:
+		break;
+	}
+	printf("%-20s|%-20d|%s\n", product->specs->productName, product->specs->productCode , &typeStr);
 }
 
 void printProductManager(ProductManager* manager)
 {
-	printf("\n|product name | product code|\n");
+	printf("\n# |product name        |product code        |product Type\n");
 	for (size_t i = 0; i < manager->numOfProducts; i++)
 	{
-		printf("%d :|", (int)i + 1);
+		printf("%d |", (int)i + 1);
 		printProduct(manager->productArr[i]);
 	}
+}
+
+int compareProductByName(const void* a, const void* b) {
+	const Product* productA = *(const Product**)a;
+	const Product* productB = *(const Product**)b;
+	return strcmp(productA->specs->productName, productB->specs->productName);
+}
+
+int compareProductByCode(const void* a, const void* b)
+{
+	const Product* productA = *(const Product**)a;
+	const Product* productB = *(const Product**)b;
+	return productA->specs->productCode - productB->specs->productCode;
+}
+
+int compareProductByType(const void* a, const void* b)
+{
+	const Product* productA = *(const Product**)a;
+	const Product* productB = *(const Product**)b;
+
+	return *(productA->specs->type) - *(productB->specs->type);
+}
+
+void sortProductArr(ProductManager* manager )
+{
+		do
+	{
+		int choice;
+		printf("which sortion you want?\n");
+		printf("1) by name\n");
+		printf("2) by code\n");
+		printf("3) by type\n");
+		scanf("%d", &choice);
+		switch (choice)
+		{
+		case BY_NAME:
+			qsort(manager->productArr, manager->numOfProducts, sizeof(Product*), compareProductByName);
+			printProductManager(manager);
+			return;
+		case BY_CODE:
+			qsort(manager->productArr, manager->numOfProducts, sizeof(Product*), compareProductByCode);
+			printProductManager(manager);
+			return;
+		case BY_TYPE:
+			qsort(manager->productArr, manager->numOfProducts, sizeof(Product*), compareProductByType);
+			printProductManager(manager);
+			return;
+		default:
+			printf("invalid choice!\n");
+			break;
+		}
+	} while (1);
 }

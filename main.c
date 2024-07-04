@@ -85,15 +85,18 @@ void q6(SupermarketManager* manager)
 	printf("3 - GENERAL\n");
 	scanf("%d", &choice);
 	printf("\nall products of a specific type in all supermarkets:\n");
-	for (size_t i = 0; i < manager->numOfSupermarkets; i++)
+
+	Supermarket* temp = manager->supermarketList;
+	while (!temp)
 	{
-		for (size_t j = 0; j < manager->supermarkets[i]->numOfProducts; j++)
+		for (size_t j = 0; j < temp->numOfProducts; j++)
 		{
-			if (manager->supermarkets[i]->productsArr[j]->specs->type == (Type*)&choice)
+			if (temp->productsArr[j]->specs->type == (Type*)&choice)
 			{
-				printProduct(manager->supermarkets[i]->productsArr[j]);
+				printProduct(temp->productsArr[j]);
 			}
 		}
+		temp = temp->next;
 	}
 }
 
@@ -105,7 +108,7 @@ void q7(SupplierManager* manager)
 	printf("2 - CLEANING\n");
 	printf("3 - GENERAL\n");
 	scanf("%d", &choice);
-	;
+	
 	printf("\nall products of a specific type in all suppliers:\n");
 	for (size_t i = 0; i < manager->numOfSuppliers; i++)
 	{
@@ -128,11 +131,12 @@ void q8(SupermarketManager* manager)
 	strcpy(name,getStr());
 	printf("please enter supermarket code: ");
 	scanf("%d", &code);
-	for (size_t i = 0; i < manager->numOfSupermarkets; i++)
+	Supermarket* temp = manager->supermarketList;
+	while (!temp)
 	{
-		if ((!strcmp(manager->supermarkets[i]->name, name)) || manager->supermarkets[i]->code == code)
+		if ((!strcmp(temp->name, name)) || temp->code == code)
 		{
-			Supermarket* super = manager->supermarkets[i];
+			Supermarket* super = temp;
 			printf("\nall product of a specific type in %s: \n",super->name);
 			for (size_t j = 0; j < super->numOfProducts; j++)
 			{
@@ -140,6 +144,11 @@ void q8(SupermarketManager* manager)
 			}
 		}
 	}
+}
+
+void q9(ProductManager* manager)
+{
+	sortProductArr(manager);
 }
 
 int main() {
@@ -162,7 +171,9 @@ int main() {
 		printf("6. Print all products of a specific type in supermarkets\n");
 		printf("7. Print all products of a specific type in suppliers\n");
 		printf("8. Print products by type in a specific supermarket\n");
-		printf("9. Exit\n");
+		printf("9. sort products by chosen rule\n");
+		printf("10. Exit\n");
+
 
 		printf("Enter your choice: ");
 		scanf(" %d", &choice);
@@ -193,13 +204,16 @@ int main() {
 			q8(&supermarketManager);
 			break;
 		case 9:
+			q9(&productManager);
+			break;
+		case 10:
 			printf("Exiting the program.\n");
 			break;
 		default:
 			printf("Invalid choice. Please enter a number between 1 and 11.\n");
 		}
 
-	} while (choice != 9);
+	} while (choice != 10);
 
 	return 0;
 }

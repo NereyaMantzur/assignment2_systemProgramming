@@ -8,6 +8,11 @@ typedef enum
 	FOOD = 1, CLEANING, GENERAL
 }Type;
 
+typedef enum Sortion
+{
+	NOT_SORTED, BY_NAME, BY_CODE, BY_TYPE
+}Sortion;
+
 typedef struct
 {
 	Type* type;
@@ -34,6 +39,7 @@ typedef struct {
 typedef struct {
 	Product** productArr;
 	int numOfProducts;
+	Sortion isSorted;
 } ProductManager;
 
 void initProductManager(ProductManager* manager);
@@ -51,4 +57,6 @@ int isProductCode(ProductManager* manager);
 
 void printProduct(Product* product);
 void printProductManager(ProductManager* manager);
+void sortProductArr(ProductManager* manager);
+
 #endif // !_PRODUCT_H

@@ -7,14 +7,14 @@
 #include "Functions.h"
 
 void initSupermarketManager(SupermarketManager* manager) {
-	printf("Initializing Supermarket Manager\n");
+	printf("=====Initializing Supermarket Manager=====\n");
 
-	manager->supermarkets = NULL;
+	manager->supermarketList = NULL;
 	manager->numOfSupermarkets = 0;
 
 	char choice;
 	do {
-		printf("Do you want to add a supermarket? (y/n): ");
+		printf("\nDo you want to add a supermarket? (y/n): ");
 		scanf(" %c", &choice);
 		getchar();
 
@@ -35,7 +35,6 @@ void initSupermarketManager(SupermarketManager* manager) {
 		}
 	} while (choice != 'n' && choice != 'N');
 }
-
 
 
 int isSameSuprmarket(Supermarket* super1, Supermarket* super2)
@@ -72,48 +71,33 @@ void addProductToSupermarket(Product* add, SupermarketManager* manager) {
 		return;
 	}
 
-	int supermarketFound = 0;
-
-	for (size_t i = 0; i < manager->numOfSupermarkets; i++) {
-		Supermarket* supermarket = manager->supermarkets[i];
-		if (strcmp(supermarket->name, str) == 0) {
-			supermarketFound = 1;
-			if (!supermarket->productsArr) {
-				supermarket->productsArr = malloc(sizeof(Product*));
-				if (!supermarket->productsArr) {
-					printf("Memory allocation failed.\n");
-					free(str);
-					return;
-				}
-				supermarket->numOfProducts = 0;
-			}
-			for (size_t j = 0; j < supermarket->numOfProducts; j++) {
-				if (supermarket->productsArr[j] &&
-					strcmp(supermarket->productsArr[j]->specs->productName, add->specs->productName) == 0) {
+	Supermarket* temp = manager->supermarketList;
+	while (temp) {
+		if (strcmp(temp->name, str) == 0) {
+			for (size_t j = 0; j < temp->numOfProducts; j++) {
+				if (strcmp(temp->productsArr[j]->specs->productName, add->specs->productName) == 0) {
 					printf("Product already exists in the supermarket.\n");
 					free(str);
 					return;
 				}
 			}
-			Product** temp = realloc(supermarket->productsArr, (supermarket->numOfProducts + 1) * sizeof(Product*));
-			if (!temp) {
+
+			Product** productArr = realloc(temp->productsArr, (temp->numOfProducts + 1) * sizeof(Product*));
+			if (!productArr) {
 				printf("Memory allocation failed.\n");
 				free(str);
 				return;
 			}
-			supermarket->productsArr = temp;
-			supermarket->productsArr[supermarket->numOfProducts] = add;
-			supermarket->numOfProducts++;
+			temp->productsArr = productArr;
+			temp->productsArr[temp->numOfProducts++] = add;
 			printf("Product added successfully.\n");
 			free(str);
 			return;
 		}
+		temp = temp->next;
 	}
 
-	if (!supermarketFound) {
-		printf("Supermarket not found.\n");
-	}
-
+	printf("Supermarket not found.\n");
 	free(str);
 }
 
@@ -139,14 +123,14 @@ int isProductInSupermarket(Product* product, Supermarket* super)
 }
 
 char* initAddress() {
-	char* country = (char*)malloc(MAX_NAME * 4 * sizeof(char)); // Allocate memory for the concatenated string
+	char* country = (char*)malloc(MAX_NAME * 4 * sizeof(char));
 	char city[MAX_NAME];
 	char street[MAX_NAME];
 	char number[MAX_NAME];
 
 	if (country == NULL) {
 		printf("Memory allocation failed\n");
-		return NULL; // Handle memory allocation failure
+		return NULL;
 	}
 
 	printf("please enter country: ");
@@ -171,18 +155,17 @@ char* initAddress() {
 
 int addSupermarket(SupermarketManager* manager) {
 	Supermarket* supermarket = (Supermarket*)malloc(sizeof(Supermarket));
-	supermarket->productsArr = NULL;
-	supermarket->numOfProducts = 0;
+
 	if (!supermarket) {
 		printf("Memory allocation for supermarket failed.\n");
 		return 0;
 	}
 
-	printf("Enter supermarket name: ");
-	strcpy(supermarket->name, getStr());
+	supermarket->productsArr = NULL;
+	supermarket->numOfProducts = 0;
 
-	printf("Enter supermarket address: \n");
-	strcpy(supermarket->address, initAddress());
+	printf("\nEnter supermarket name: ");
+	strcpy(supermarket->name, getStr());
 
 	printf("Enter supermarket code (5 digits): ");
 	while (1) {
@@ -196,49 +179,55 @@ int addSupermarket(SupermarketManager* manager) {
 		printf("Enter supermarket code (5 digits): ");
 	}
 
-	for (int i = 0; i < manager->numOfSupermarkets; i++) {
-		if (manager->supermarkets[i]->code == supermarket->code) {
-			printf("Supermarket with this code already exists.\n");
-			free(supermarket);
-			return 0;
+	printf("Enter supermarket address - \n");
+	strcpy(supermarket->address, initAddress());
+
+
+	if (!manager->supermarketList || strcmp(supermarket->name, manager->supermarketList->name) < 0) {
+		supermarket->next = manager->supermarketList;
+		manager->supermarketList = supermarket;
+	}
+	else {
+		Supermarket* temp = manager->supermarketList;
+		while (temp->next && strcmp(supermarket->name, temp->next->name) < 0) {
+			temp = temp->next;
 		}
+		supermarket->next = temp->next;
+		temp->next = supermarket;
 	}
 
-	Supermarket** temp = (Supermarket**)realloc(manager->supermarkets,
-		(manager->numOfSupermarkets + 1) * sizeof(Supermarket*));
-	if (!temp) {
-		printf("Memory reallocation failed.\n");
-		free(supermarket);
-		return 0;
-	}
-	manager->supermarkets = temp;
-
-	manager->supermarkets[manager->numOfSupermarkets] = supermarket;
 	manager->numOfSupermarkets++;
-
-	printf("Supermarket added successfully.\n");
+	printf("Product added successfully!\n");
 
 	return 1;
 }
 
-int removeSupermarket(SupermarketManager* manager, Supermarket* delete)
-{
-	if (manager->numOfSupermarkets == 0)
-	{
-		printf("no supermarket to delete\n");
+int removeSupermarket(SupermarketManager* manager, Supermarket* delete) {
+	if (manager->numOfSupermarkets == 0) {
+		printf("No supermarket to delete.\n");
 		return 0;
 	}
-	for (size_t i = 0; i < manager->numOfSupermarkets; i++)
-	{
-		if (manager->supermarkets[i] == delete)
-		{
-			manager->supermarkets[i] = manager->supermarkets[manager->numOfSupermarkets];
-			manager->supermarkets = (Supermarket**)realloc(manager->supermarkets, (manager->numOfSupermarkets - 1) * sizeof(Supermarket*));
+
+	Supermarket* temp = manager->supermarketList;
+	Supermarket* prev = NULL;
+
+	while (temp) {
+		if (temp == delete) {
+			if (prev) {
+				prev->next = temp->next;
+			}
+			else {
+				manager->supermarketList = temp->next;
+			}
+			free(temp);
 			manager->numOfSupermarkets--;
+			printf("Supermarket deleted successfully.\n");
 			return 1;
 		}
+		prev = temp;
+		temp = temp->next;
 	}
-	printf("supermarkets not found\n");
+	printf("Supermarket not found.\n");
 	return 0;
 }
 
@@ -249,20 +238,22 @@ int updateSupermarket(SupermarketManager* manager, Supermarket* update)
 		printf("no supermarket to delete");
 		return 0;
 	}
-	for (size_t i = 0; i < manager->numOfSupermarkets; i++)
+	Supermarket* temp = manager->supermarketList;
+	while (!temp)
 	{
-		if (manager->supermarkets[i] == update) {
+		if (temp == update) {
 			printf("Enter supermarket name: ");
-			fgets(manager->supermarkets[i]->name, MAX_NAME_LENGTH, stdin);
+			fgets(temp->name, MAX_NAME_LENGTH, stdin);
 			getchar();
 
 			printf("Enter supermarket address: ");
-			fgets(manager->supermarkets[i]->address, MAX_ADDRESS_LENGTH, stdin);
+			fgets(temp->address, MAX_ADDRESS_LENGTH, stdin);
 			getchar();
 
 			printf("Enter supermarket code: ");
-			scanf(" %d", &manager->supermarkets[i]->code);
+			scanf(" %d", &temp->code);
 		}
+		temp = temp->next;
 	}
 	return 1;
 }
@@ -273,14 +264,16 @@ Supermarket* findSupermarketByNameOrCode(SupermarketManager* manager, char* str,
 	{
 		printf("no supermarket found");
 	}
-	for (size_t i = 0; i < manager->numOfSupermarkets; i++)
+	Supermarket* temp = manager->supermarketList;
+	while (!temp) 
 	{
-		if (manager->supermarkets[i]->code == code) {
-			return manager->supermarkets[i];
-		}
-		else if (!strcmp(manager->supermarkets[i]->name, str))
+		if (temp->code == code) 
 		{
-			return manager->supermarkets[i];
+			return temp;
+		}
+		else if (!strcmp(temp->name, str))
+		{
+			return temp;
 		}
 	}
 	return NULL;
@@ -300,16 +293,20 @@ void printSupermarket(Supermarket* super)
 		}
 		ptr++;
 	}
-	printf("%s | %d| %s|\n", super->name, super->code ,super->address);
+	printf("%-20s|%-20d|%s\n", super->name, super->code ,super->address);
 }
 
 void printSupermarketManager(SupermarketManager* manager)
 {
-	printf("\n|supermarket name | supermarket code| supermarket address\n");
-	for (size_t i = 0; i < manager->numOfSupermarkets; i++)
+	printf("\n# |supermarket name    |supermarket code    |supermarket address  \n");
+	int i = 1;
+	Supermarket* temp = manager->supermarketList;
+	while (temp) 
 	{
-		printf("%d : |", (int)i + 1);
-		printSupermarket(manager->supermarkets[i]);
+		printf("%d |", i );
+		printSupermarket(temp);
+		i++;
+		temp = temp->next;
 	}
 }
 

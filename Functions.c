@@ -21,9 +21,7 @@ void initProductInfo(Product* product) {
 		printf("allocation failed\n");
 		return;
 	}
-	printf("initializing new product:\n");
-
-	printf("please enter product name: ");
+	printf("\nplease enter product name: ");
 	fgets(newInfo->productName, MAX_NAME, stdin);
 
 	printf("Enter product code (6 digits): ");
@@ -37,17 +35,18 @@ void initProductInfo(Product* product) {
 	}
 
 	int choice;
-	do {
-		printf("please enter product type (1 for FOOD, 2 for CLEANING, 3 for GENERAL): ");
-		if (scanf("%d", &choice) == 1 && getchar()) {
-			if (choice == FOOD || choice == CLEANING || choice == GENERAL) {
-				newInfo->type = (Type*)&choice;
-				break;
+	while (1) {
+		printf("Please enter product type (1 for FOOD, 2 for CLEANING, 3 for GENERAL): ");
+		if (scanf("%d", &choice) == 1 && (choice == FOOD || choice == CLEANING || choice == GENERAL)) {
+			newInfo->type = (Type*)malloc(sizeof(Type));
+			if (newInfo->type != NULL) {
+				*newInfo->type = (Type)choice;
 			}
+			break;
 		}
 		printf("Invalid choice. Try again.\n");
-		while (getchar() != '\n');
-	} while (1);
+		while (getchar() != '\n'); 
+	}
 
 	product->specs = newInfo;
 }
