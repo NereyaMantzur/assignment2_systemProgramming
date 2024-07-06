@@ -120,6 +120,10 @@ char* getStr() {
 	temp[strcspn(temp, "\n")] = '\0';
 
 	char* str = malloc(strlen(temp) + 1);
+	if(str == NULL) {
+	     printf ("memory allocation failed.\n");
+	     exit(1);
+	}
 	strcpy(str, temp);
 
 	if (*str) {

@@ -8,6 +8,10 @@
 #include "Functions.h"
 
 void initProductManager(ProductManager* manager) {
+	if (manager == NULL) {
+        printf("Error: NULL pointer to ProductManager.\n");
+        return;
+    }
 	printf("\n=====Initializing Product Manager=====\n");
 
 	manager->productArr = NULL;
