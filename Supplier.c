@@ -7,6 +7,11 @@
 #include "Functions.h"
 
 void initSupplierManager(SupplierManager* manager) {
+	if( manager == NULL){
+	   printf("Eroor: NULL pointer to ProductManager.\n");
+	   return; // or handle how you want.
+	}
+		
 	printf("\n======Initializing Supplier Manager=====\n");
 
 	manager->suppliers = NULL;
