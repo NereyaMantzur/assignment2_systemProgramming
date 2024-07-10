@@ -6,34 +6,37 @@
 
 #include "Functions.h"
 
-void initSupplierManager(SupplierManager* manager) {
+void initSupplierManager(char* fName, SupplierManager* manager) {
 	printf("\n======Initializing Supplier Manager=====\n");
 
-	manager->suppliers = NULL;
-	manager->numOfSuppliers = 0;
+	if (!readSupplierfromText(fName,manager))
+	{
+		manager->suppliers = NULL;
+		manager->numOfSuppliers = 0;
 
-	char choice;
-	do {
-		printf("\nDo you want to add a supplier? (y/n): ");
-		scanf(" %c", &choice);
-		getchar();
+		char choice;
+		do {
+			printf("\nDo you want to add a supplier? (y/n): ");
+			scanf(" %c", &choice);
+			getchar();
 
-		switch (choice) {
-		case 'y':
-		case 'Y':
-			if (addSupplier(manager) == 0) {
-				printf("Failed to add supplier.\n");
+			switch (choice) {
+			case 'y':
+			case 'Y':
+				if (addSupplier(manager) == 0) {
+					printf("Failed to add supplier.\n");
+				}
+				break;
+			case 'n':
+			case 'N':
+				printf("Exiting supplier initialization.\n");
+				break;
+			default:
+				printf("Invalid input. Please enter 'y' or 'n'.\n");
+				break;
 			}
-			break;
-		case 'n':
-		case 'N':
-			printf("Exiting supplier initialization.\n");
-			break;
-		default:
-			printf("Invalid input. Please enter 'y' or 'n'.\n");
-			break;
-		}
-	} while (choice != 'n' && choice != 'N');
+		} while (choice != 'n' && choice != 'N');
+	}
 }
 
 void addProductToSupplier(Product* add, SupplierManager* manager) {
@@ -244,10 +247,72 @@ void printSupplier(Supplier* supplier)
 
 void printSupplierManager(SupplierManager* manager)
 {
-	printf("\n# |supplier name       | supplier code    \n");
+	printf("\n# |supplier name       |supplier code    \n");
 	for (int i = 0; i < manager->numOfSuppliers; i++)
 	{
 		printf("%d |", i + 1);
 		printSupplier(manager->suppliers[i]);
 	}
 }
+
+int writeSupplierToText(char* fName, int count, SupplierManager* manager)
+{
+	FILE* textF = fopen(fName, "w");
+	if (!textF)
+	{
+		printf("failed to open file");
+		return 0;
+	}
+
+	fprintf(textF, "%d\n", count);
+	for (size_t i = 0; i < count; i++)
+	{
+		fprintf(textF, "%s\n", manager->suppliers[i]->name);
+		fprintf(textF, "%d\n", manager->suppliers[i]->code);
+		fprintf(textF, "%d\n", manager->suppliers[i]->numOfProducts);
+		writeProductsToText(textF, manager->suppliers[i]->numOfProducts, manager->suppliers[i]->productsArr);
+	}
+	fprintf(textF, "\n");
+
+	fclose(textF);
+	return 1;
+}
+
+Supplier** readSupplierfromText(char* fName , SupplierManager* manager)
+{
+	FILE* readF = fopen(fName, "r");
+	if (!readF)
+	{
+		return NULL;
+	}
+
+	fscanf(readF,"%d",&manager->numOfSuppliers);
+	manager->suppliers = (Supplier**)malloc(manager->numOfSuppliers * sizeof(Supplier*));
+	if (!manager->suppliers)
+	{
+		return NULL;
+
+	}
+
+
+	for (size_t i = 0; i < manager->numOfSuppliers; i++)
+	{
+		manager->suppliers[i] = (Supplier*)malloc(sizeof(Supplier));
+		if (!manager->suppliers[i])
+		{
+			free(manager->suppliers);
+			return NULL;
+		}
+
+		fscanf(readF, "%s", manager->suppliers[i]->name);
+		fscanf(readF, "%d", &manager->suppliers[i]->code);
+		fscanf(readF, "%d", &manager->suppliers[i]->numOfProducts);
+
+		manager->suppliers[i]->productsArr = readProductsFromText(readF, manager->suppliers[i]->numOfProducts, manager->suppliers[i]->productsArr);
+
+	}
+	fclose(readF);
+	printf("suppliers initialized from text file\n");
+	return manager->suppliers;
+}
+

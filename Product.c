@@ -38,12 +38,11 @@ void initProductManager(ProductManager* manager) {
 }
 
 Product* addProduct(ProductManager* manager) {
-	Product** newArr = (Product**)realloc(manager->productArr, (manager->numOfProducts + 1) * sizeof(Product*));
-	if (!newArr) {
+	manager->productArr = (Product**)realloc(manager->productArr, (manager->numOfProducts + 1) * sizeof(Product*));
+	if (!manager->productArr) {
 		printf("Memory allocation for product list failed.\n");
 		return NULL;
 	}
-	manager->productArr = newArr;
 
 	Product* product = (Product*)malloc(sizeof(Product));
 	if (!product) {
@@ -349,3 +348,55 @@ void sortProductArr(ProductManager* manager )
 		}
 	} while (1);
 }
+
+int writeProductsToText(FILE* fp, int count, Product** productArr)
+{
+	for (int i = 0; i < count; i++)
+	{
+		fprintf(fp, "%s\n", productArr[i]->specs->productName);
+		fprintf(fp, "%d\n",productArr[i]->specs->productCode);
+		fprintf(fp, "%d\n",*productArr[i]->specs->type);
+	}
+	return 1;
+}
+
+Product** readProductsFromText(FILE* readF,int count, Product** productArr)
+{
+
+	productArr = (Product**)malloc(count * sizeof(Product*));
+	if (!productArr)
+	{
+		return NULL;
+	}
+
+	for (size_t i = 0; i < count; i++)
+	{
+		productArr[i] = (Product*)malloc(sizeof(Product));
+		if (!productArr[i])
+		{
+			return NULL;
+		}
+
+		productArr[i]->specs = (productInfo*)malloc(sizeof(productInfo));
+		if (!productArr[i]->specs)
+		{
+			return NULL;
+		}
+
+		productArr[i]->specs->type = (Type*)malloc(sizeof(Type));
+		if (!productArr[i]->specs->type)
+		{
+			return NULL;
+		}
+
+		int type;
+		fscanf(readF, "%s\n", productArr[i]->specs->productName);
+		fscanf(readF, "%d\n", &productArr[i]->specs->productCode);
+		fscanf(readF, "%d\n", &type);
+
+		*productArr[i]->specs->type = type;
+	}
+	return productArr;
+}
+
+

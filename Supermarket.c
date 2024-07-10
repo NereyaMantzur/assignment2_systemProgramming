@@ -179,8 +179,8 @@ int addSupermarket(SupermarketManager* manager) {
 		printf("Enter supermarket code (5 digits): ");
 	}
 
-	printf("Enter supermarket address - \n");
-	strcpy(supermarket->address, initAddress());
+	//printf("Enter supermarket address - \n");
+	//strcpy(supermarket->address, initAddress());
 
 
 	if (!manager->supermarketList || strcmp(supermarket->name, manager->supermarketList->name) < 0) {

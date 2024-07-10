@@ -16,7 +16,7 @@ typedef struct {
 	int numOfSuppliers;
 } SupplierManager;
 
-void initSupplierManager(SupplierManager* manager);
+void initSupplierManager(char* fName, SupplierManager* manager);
 
 void addProductToSupplier(Product* add, SupplierManager* manager);
 
@@ -31,5 +31,9 @@ void deleteProdcutFromSupplier(Product* add, SupplierManager* manager);
 
 void printSupplier(Supplier* supplier);
 void printSupplierManager(SupplierManager* manager);
+int writeSupplierToText(char* fName, int count, SupplierManager* manager);
+Supplier** readSupplierfromText(char* fName, SupplierManager* manager);
+
+
 
 #endif // !_SUPPLIER_H

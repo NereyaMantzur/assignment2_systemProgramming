@@ -14,4 +14,5 @@ int isLeapYear(int year);
 int isValidDate(Date* date);
 char* getStr();
 
+
 #endif // !_FUNCTIONS_H

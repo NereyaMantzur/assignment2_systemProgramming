@@ -58,5 +58,6 @@ int isProductCode(ProductManager* manager);
 void printProduct(Product* product);
 void printProductManager(ProductManager* manager);
 void sortProductArr(ProductManager* manager);
-
+int writeProductsToText(FILE* fp, int count, Product** productArr);
+Product** readProductsFromText(FILE* readF, int count, Product** productArr);
 #endif // !_PRODUCT_H

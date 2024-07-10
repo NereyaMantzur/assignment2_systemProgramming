@@ -4,6 +4,11 @@
 #include <string.h>
 
 #include "Functions.h"
+
+#define SUPPLIER_TEXT "suppliers.txt"
+
+
+
 void q1(SupermarketManager* supermarketManager)
 {
 	addSupermarket(supermarketManager);
@@ -69,7 +74,8 @@ void q5(SupplierManager* manager)
 	printf("please enter supplier code: ");
 	scanf("%d", &code);
 	Supplier* supplier = findSupplierByNameOrCode(manager, name, code);
-	printf("\n%s product are:\n",supplier->name);
+	printf("\n%s products are:\n",supplier->name);
+	printf("\n# |product name        |product code        |product Type\n");
 	for (size_t i = 0; i < supplier->numOfProducts; i++)
 	{
 		printProduct(supplier->productsArr[i]);
@@ -157,7 +163,7 @@ int main() {
 	ProductManager productManager;
 
 	initSupermarketManager(&supermarketManager);
-	initSupplierManager(&supplierManager);
+	initSupplierManager(SUPPLIER_TEXT, &supplierManager);
 	initProductManager(&productManager);
 
 	int choice;
@@ -212,12 +218,8 @@ int main() {
 		default:
 			printf("Invalid choice. Please enter a number between 1 and 11.\n");
 		}
-
+		writeSupplierToText(SUPPLIER_TEXT, supplierManager.numOfSuppliers, &supplierManager);
 	} while (choice != 10);
 
 	return 0;
 }
-
-
-
-
