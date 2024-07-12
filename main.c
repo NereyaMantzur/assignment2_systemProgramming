@@ -157,6 +157,29 @@ void q9(ProductManager* manager)
 	sortProductArr(manager);
 }
 
+void q12(ProductManager* manager)
+{
+	int choice;
+	char* name;
+	printf("please enter type of search:\n");
+	printf("1 - NAME\n");
+	printf("2 - CODE\n");
+	scanf("%d", &choice);
+
+	switch (choice) {
+	case 1:
+		printf("what is the name of the product\n");
+		name = getStr();
+		bsearch(, manager->productArr, manager->numOfProducts, sizeof(Product*), compareProductByName);
+		break;
+	case 2:
+		break;
+	default:
+		printf("Invalid choice. Please enter a number between 1 and 13.\n");
+	}
+
+}
+
 int main() {
 	SupermarketManager supermarketManager;
 	SupplierManager supplierManager;
@@ -180,7 +203,8 @@ int main() {
 		printf("9. sort products by chosen rule\n");
 		printf("10. print all products \n");
 		printf("11. print all suppliers \n");
-		printf("12. Exit\n");
+		printf("12. search product by ");
+		printf("13. Exit\n");
 
 
 		printf("Enter your choice: ");
@@ -221,13 +245,16 @@ int main() {
 			generalArrayFunction(supplierManager.suppliers, supplierManager.numOfSuppliers, sizeof(Supplier*), printSupplier);
 			break;
 		case 12:
+			
+			break;
+		case 13:
 			printf("Exiting the program.\n");
 			break;
 		default:
-			printf("Invalid choice. Please enter a number between 1 and 12.\n");
+			printf("Invalid choice. Please enter a number between 1 and 13.\n");
 		}
 		writeSupplierToText(SUPPLIER_TEXT, supplierManager.numOfSuppliers, &supplierManager);
-	} while (choice != 12);
+	} while (choice != 13);
 
 	return 0;
 }

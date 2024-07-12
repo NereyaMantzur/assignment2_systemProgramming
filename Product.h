@@ -60,4 +60,9 @@ void printProductManager(ProductManager* manager);
 void sortProductArr(ProductManager* manager);
 int writeProductsToText(FILE* fp, int count, Product** productArr);
 Product** readProductsFromText(FILE* readF, int count, Product** productArr);
+
+int compareProductByName(const void* a, const void* b);
+int compareProductByCode(const void* a, const void* b);
+int compareProductByType(const void* a, const void* b);
+
 #endif // !_PRODUCT_H

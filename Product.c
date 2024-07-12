@@ -297,7 +297,8 @@ void printProductManager(ProductManager* manager)
 	}
 }
 
-int compareProductByName(const void* a, const void* b) {
+int compareProductByName(const void* a, const void* b)
+{
 	const Product* productA = *(const Product**)a;
 	const Product* productB = *(const Product**)b;
 	return strcmp(productA->specs->productName, productB->specs->productName);
