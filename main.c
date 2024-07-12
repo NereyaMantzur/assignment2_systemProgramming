@@ -172,13 +172,15 @@ int main() {
 		printf("1. Add a supermarket \n");
 		printf("2. Add a product to supplier or supermarket\n");
 		printf("3. print supermarket products\n");
-		printf("4. print all supermarkets info\n");
+		printf("4. print all supermarkets \n");
 		printf("5. Print all products of a supplier\n");
 		printf("6. Print all products of a specific type in supermarkets\n");
 		printf("7. Print all products of a specific type in suppliers\n");
 		printf("8. Print products by type in a specific supermarket\n");
 		printf("9. sort products by chosen rule\n");
-		printf("10. Exit\n");
+		printf("10. print all products \n");
+		printf("11. print all suppliers \n");
+		printf("12. Exit\n");
 
 
 		printf("Enter your choice: ");
@@ -213,13 +215,19 @@ int main() {
 			q9(&productManager);
 			break;
 		case 10:
+			generalArrayFunction(productManager.productArr, productManager.numOfProducts, sizeof(Product*), printProduct);
+			break;
+		case 11:
+			generalArrayFunction(supplierManager.suppliers, supplierManager.numOfSuppliers, sizeof(Supplier*), printSupplier);
+			break;
+		case 12:
 			printf("Exiting the program.\n");
 			break;
 		default:
-			printf("Invalid choice. Please enter a number between 1 and 11.\n");
+			printf("Invalid choice. Please enter a number between 1 and 12.\n");
 		}
 		writeSupplierToText(SUPPLIER_TEXT, supplierManager.numOfSuppliers, &supplierManager);
-	} while (choice != 10);
+	} while (choice != 12);
 
 	return 0;
 }

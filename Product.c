@@ -398,5 +398,5 @@ Product** readProductsFromText(FILE* readF,int count, Product** productArr)
 	}
 	return productArr;
 }
-
+
 

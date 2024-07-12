@@ -13,6 +13,7 @@ Date* initDate();
 int isLeapYear(int year);
 int isValidDate(Date* date);
 char* getStr();
+void generalArrayFunction(void** arr, int count, int size, int (*func)(void* element));
 
 
 #endif // !_FUNCTIONS_H

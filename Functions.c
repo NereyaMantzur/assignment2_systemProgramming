@@ -131,3 +131,12 @@ char* getStr() {
 
 	return str;
 }
+
+void generalArrayFunction(void** arr , int count , int size , int (*func)(void* element))
+{
+	printf("\n");
+	for (size_t i = 0; i < count; i++)
+	{
+		func(arr[i]);
+	}
+}

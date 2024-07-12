@@ -240,6 +240,7 @@ Supplier* findSupplierByNameOrCode(SupplierManager* manager, char* str, int code
 }
 
 
+
 void printSupplier(Supplier* supplier)
 {
 	printf("%-20s|%d\n", supplier->name, supplier->code);
