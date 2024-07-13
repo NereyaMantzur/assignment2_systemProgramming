@@ -259,16 +259,8 @@ Product* findProductByIndex(ProductManager* manager, int index)
 	}
 }
 
-void printProduct(Product* product)
+int printProduct(Product* product)
 {
-	char* ptr = product->specs->productName;
-	while (*ptr != '\0') {
-		if (*ptr == '\n') {
-			*ptr = '\0';
-			break;
-		}
-		ptr++;
-	}
 	char typeStr[10]="";
 	switch (* product->specs->type)
 	{
@@ -285,6 +277,7 @@ void printProduct(Product* product)
 		break;
 	}
 	printf("%-20s|%-20d|%s\n", product->specs->productName, product->specs->productCode , &typeStr);
+	return 1;
 }
 
 void printProductManager(ProductManager* manager)

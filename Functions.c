@@ -21,18 +21,12 @@ void initProductInfo(Product* product) {
 		printf("allocation failed\n");
 		return;
 	}
+
 	printf("\nplease enter product name: ");
-	fgets(newInfo->productName, MAX_NAME, stdin);
+	strcpy(newInfo->productName, getStr());
 
 	printf("Enter product code (6 digits): ");
-	while (1) {
-		if (scanf("%d", &newInfo->productCode) == 1 && getchar() && newInfo->productCode >= 100000 && newInfo->productCode <= 999999) {
-			break;
-		}
-		printf("Code not valid. Try again.\n");
-		printf("Enter product code (6 digits): ");
-		while (getchar() != '\n');
-	}
+	initProductCode(newInfo);
 
 	int choice;
 	while (1) {
@@ -49,6 +43,18 @@ void initProductInfo(Product* product) {
 	}
 
 	product->specs = newInfo;
+}
+
+void initProductCode(productInfo* newInfo)
+{
+	while (1) {
+		if (scanf("%d", &newInfo->productCode) == 1 && getchar() && newInfo->productCode >= 100000 && newInfo->productCode <= 999999) {
+			break;
+		}
+		printf("Code not valid. Try again.\n");
+		printf("Enter product code (6 digits): ");
+		while (getchar() != '\n');
+	}
 }
 
 int isLeapYear(int year) {

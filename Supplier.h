@@ -29,7 +29,7 @@ int isProductFromSupplier(ProductManager* managar, Supplier* supplier);
 int isProductInSupplier(Product* add, SupplierManager* manager);
 void deleteProdcutFromSupplier(Product* add, SupplierManager* manager);
 
-void printSupplier(Supplier* supplier);
+int printSupplier(Supplier* supplier);
 void printSupplierManager(SupplierManager* manager);
 int writeSupplierToText(char* fName, int count, SupplierManager* manager);
 Supplier** readSupplierfromText(char* fName, SupplierManager* manager);

@@ -55,7 +55,7 @@ Product* findProductByIndex(ProductManager* manager, int index);
 int isProductType(ProductManager* manager);
 int isProductCode(ProductManager* manager);
 
-void printProduct(Product* product);
+int printProduct(Product* product);
 void printProductManager(ProductManager* manager);
 void sortProductArr(ProductManager* manager);
 int writeProductsToText(FILE* fp, int count, Product** productArr);

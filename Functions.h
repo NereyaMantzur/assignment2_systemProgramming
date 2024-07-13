@@ -9,6 +9,7 @@
 
 void replaceSpaces(char* str);
 void initProductInfo(Product* product);
+void initProductCode(productInfo* newInfo);
 Date* initDate();
 int isLeapYear(int year);
 int isValidDate(Date* date);

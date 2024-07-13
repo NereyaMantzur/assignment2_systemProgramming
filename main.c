@@ -78,6 +78,7 @@ void q5(SupplierManager* manager)
 	printf("\n# |product name        |product code        |product Type\n");
 	for (size_t i = 0; i < supplier->numOfProducts; i++)
 	{
+		printf("%d |", i + 1);
 		printProduct(supplier->productsArr[i]);
 	}
 }
@@ -159,20 +160,44 @@ void q9(ProductManager* manager)
 
 void q12(ProductManager* manager)
 {
+	Product* temp = (Product*)malloc(sizeof(Product));
+	temp->specs = (productInfo*)malloc(sizeof(productInfo));
 	int choice;
-	char* name;
+	Product** res;
+
+
 	printf("please enter type of search:\n");
 	printf("1 - NAME\n");
 	printf("2 - CODE\n");
 	scanf("%d", &choice);
+	getchar();
 
 	switch (choice) {
 	case 1:
-		printf("what is the name of the product\n");
-		name = getStr();
-		bsearch(, manager->productArr, manager->numOfProducts, sizeof(Product*), compareProductByName);
+		qsort(manager->productArr, manager->numOfProducts, sizeof(Product*), compareProductByName);
+		printf("what is the name of the product you want to search\n");
+		strcpy(temp->specs->productName, getStr());
+		res = (Product**)bsearch(&temp, manager->productArr, manager->numOfProducts, sizeof(Product*), compareProductByName);
+		if (res)
+		{
+			printf("\nproduct name        |product code        |product Type\n");
+			printProduct(*res);
+			break;
+		}
+		printf("product Not found\n");
 		break;
 	case 2:
+		qsort(manager->productArr, manager->numOfProducts, sizeof(Product*), compareProductByCode);
+		printf("what is the code of the product you want to search (6 digits)\n");
+		initProductCode(temp->specs);
+		res = (Product**)bsearch(&temp, manager->productArr, manager->numOfProducts, sizeof(Product*), compareProductByCode);
+		if (res)
+		{
+			printf("\nproduct name        |product code        |product Type\n");
+			printProduct(*res);
+			break;
+		}
+			printf("product Not found\n");
 		break;
 	default:
 		printf("Invalid choice. Please enter a number between 1 and 13.\n");
@@ -203,7 +228,7 @@ int main() {
 		printf("9. sort products by chosen rule\n");
 		printf("10. print all products \n");
 		printf("11. print all suppliers \n");
-		printf("12. search product by ");
+		printf("12. search product by (name/code)\n");
 		printf("13. Exit\n");
 
 
@@ -239,13 +264,15 @@ int main() {
 			q9(&productManager);
 			break;
 		case 10:
+			printf("\nproduct name        |product code        |product Type\n");
 			generalArrayFunction(productManager.productArr, productManager.numOfProducts, sizeof(Product*), printProduct);
 			break;
 		case 11:
+			printf("\nsupplier name       |supplier code    ");
 			generalArrayFunction(supplierManager.suppliers, supplierManager.numOfSuppliers, sizeof(Supplier*), printSupplier);
 			break;
 		case 12:
-			
+			q12(&productManager);
 			break;
 		case 13:
 			printf("Exiting the program.\n");
