@@ -20,20 +20,20 @@ int main() {
 	int choice;
 	do {
 		printf("\nMain Menu\n");
-		printf("1. Add a supermarket \n");
-		printf("2. Add a product to supplier or supermarket\n");
-		printf("3. print supermarket products\n");
-		printf("4. print all supermarkets \n");
-		printf("5. Print all products of a supplier\n");
-		printf("6. Print all products of a specific type in supermarkets\n");
-		printf("7. Print all products of a specific type in suppliers\n");
-		printf("8. Print products by type in a specific supermarket\n");
+		printf("1.  Add a supermarket \n");
+		printf("2.  Add a product to supplier or supermarket\n");
+		printf("3.  print supermarket products\n");
+		printf("4.  print all supermarkets \n");
+		printf("5.  Print all products of a supplier\n");
+		printf("6.  Print all products of a specific type in supermarkets\n");
+		printf("7.  Print all products of a specific type in suppliers\n");
+		printf("8.  Print products by type in a specific supermarket\n");
 		/*        
 
 		     ↓ assignment Number 3 ↓
 
 		*/
-		printf("9. sort products by chosen rule\n");
+		printf("9.  sort products by chosen rule\n");
 		printf("10. print all products \n");
 		printf("11. print all suppliers \n");
 		printf("12. search product by (name/code)\n");
