@@ -7,11 +7,13 @@
 #include "Product.h"
 #include "Functions.h"
 
-void initProductManager(ProductManager* manager) {
+void initProductManager(ProductManager* productManager ,SupplierManager* supplierManager) {
 	printf("\n=====Initializing Product Manager=====\n");
 
-	manager->productArr = NULL;
-	manager->numOfProducts = 0;
+	productManager->productArr = NULL;
+	productManager->numOfProducts = 0;
+
+	addProductFromText(productManager , supplierManager);
 
 	char choice;
 	do {
@@ -22,7 +24,7 @@ void initProductManager(ProductManager* manager) {
 		switch (choice) {
 		case 'y':
 		case 'Y':
-			if (addProduct(manager) == 0) {
+			if (addProduct(productManager) == 0) {
 				printf("Failed to add Product.\n");
 			}
 			break;
@@ -35,6 +37,77 @@ void initProductManager(ProductManager* manager) {
 			break;
 		}
 	} while (choice != 'n' && choice != 'N');
+}
+
+void initProductInfo(Product* product, ProductManager* manager) {
+	productInfo* newInfo = (productInfo*)malloc(sizeof(productInfo));
+	if (!newInfo) {
+		printf("allocation failed\n");
+		return;
+	}
+
+	printf("\nplease enter product name: ");
+	strcpy(newInfo->productName, getStr());
+
+	initProductCode(newInfo, manager);
+
+	int choice;
+	while (1) {
+		printf("Please enter product type (1 for FOOD, 2 for CLEANING, 3 for GENERAL): ");
+		if (scanf("%d", &choice) == 1 && (choice == FOOD || choice == CLEANING || choice == GENERAL)) {
+			newInfo->type = (Type*)malloc(sizeof(Type));
+			if (newInfo->type != NULL) {
+				*newInfo->type = (Type)choice;
+			}
+			break;
+		}
+		printf("Invalid choice. Try again.\n");
+	}
+
+	product->specs = newInfo;
+}
+
+void initProductCode(productInfo* newInfo, ProductManager* manager) {
+	int isUnique;
+	while (1) {
+		printf("Enter product code (6 digits): ");
+
+		if (scanf("%d", &newInfo->productCode) == 1 && getchar() == '\n' &&
+			newInfo->productCode >= 100000 && newInfo->productCode <= 999999) {
+			isUnique = 1;
+			for (int i = 0; i < manager->numOfProducts; i++) {
+				if (manager->productArr[i]->specs->productCode == newInfo->productCode) {
+					isUnique = 0;
+					break;
+				}
+			}
+
+			if (isUnique) {
+				break;
+			}
+			else {
+				printf("Code already exists. Try again.\n");
+			}
+		}
+		else {
+			printf("Code not valid. Try again.\n");
+		}
+	}
+}
+
+void addProductFromText(ProductManager* productManager, SupplierManager* supplierManager)
+{
+	int index = 0;
+	for (size_t i = 0; i < supplierManager->numOfSuppliers; i++)
+	{
+		for (size_t j = 0; j < supplierManager->suppliers[i]->numOfProducts; j++)
+		{
+			productManager->productArr = (Product**)realloc(productManager->productArr, (productManager->numOfProducts + 1) * sizeof(Product*));
+			productManager->productArr[index] = supplierManager->suppliers[i]->productsArr[j];
+			productManager->numOfProducts++;
+			index++;
+		}
+	}
 }
 
 Product* addProduct(ProductManager* manager) {
@@ -54,34 +127,34 @@ Product* addProduct(ProductManager* manager) {
 	product->numOfSupers = 0;
 	product->supplier = NULL;
 
-	initProductInfo(product);
+	initProductInfo(product ,manager);
 
-	//product->exp = (Date*)malloc(sizeof(Date));
-	//if (!product->exp) {
-	//	printf("Memory allocation for expiry date failed.\n");
-	//	free(product);
-	//	return NULL;
-	//}
-	//printf("Please enter expiry date:\n");
-	//while (!initDate(product->exp)) {
-	//	printf("Invalid date. Please enter expiry date again:\n");
-	//}
+	product->exp = (Date*)malloc(sizeof(Date));
+	if (!product->exp) {
+		printf("Memory allocation for expiry date failed.\n");
+		free(product);
+		return NULL;
+	}
+	printf("Please enter expiry date:\n");
+	while (!initDate(product->exp)) {
+		printf("Invalid date. Please enter expiry date again:\n");
+	}
 
-	//product->mfg = (Date*)malloc(sizeof(Date));
-	//if (!product->mfg) {
-	//	printf("Memory allocation for manufacture date failed.\n");
-	//	free(product->exp);
-	//	free(product);
-	//	return NULL;
-	//}
-	//printf("Please enter manufacture date:\n");
-	//while (!initDate(product->mfg)) {
-	//	printf("Invalid date. Please enter manufacture date again:\n");
-	//}
+	product->mfg = (Date*)malloc(sizeof(Date));
+	if (!product->mfg) {
+		printf("Memory allocation for manufacture date failed.\n");
+		free(product->exp);
+		free(product);
+		return NULL;
+	}
+	printf("Please enter manufacture date:\n");
+	while (!initDate(product->mfg)) {
+		printf("Invalid date. Please enter manufacture date again:\n");
+	}
 
-	//getchar();
-	//printf("Please enter supplier name: ");
-	//product->supplier = getStr();
+	getchar();
+	printf("Please enter supplier name: ");
+	product->supplier = getStr();
 
 	manager->productArr[manager->numOfProducts] = product;
 	manager->numOfProducts++;
@@ -90,7 +163,67 @@ Product* addProduct(ProductManager* manager) {
 	return product;
 }
 
+int isLeapYear(int year) {
+	return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+}
 
+int isValidDate(Date* date) {
+	if (date->year < 1900 || date->year > 2100) {
+		return 0;
+	}
+
+	if (date->month < 1 || date->month > 12) {
+		return 0;
+	}
+
+	int daysInMonth;
+	switch (date->month) {
+	case 1: case 3: case 5: case 7: case 8: case 10: case 12:
+		daysInMonth = 31;
+		break;
+	case 4: case 6: case 9: case 11:
+		daysInMonth = 30;
+		break;
+	case 2:
+		daysInMonth = isLeapYear(date->year) ? 29 : 28;
+		break;
+	default:
+		return 0;
+	}
+
+	if (date->day < 1 || date->day > daysInMonth) {
+		return 0;
+	}
+
+	return 1;
+}
+
+Date* initDate() {
+	Date* date = (Date*)malloc(sizeof(Date));
+	if (date == NULL) {
+		printf("Memory allocation failed.\n");
+		exit(1);
+	}
+	char input[11];
+
+	do {
+		printf("Enter date (DD/MM/YYYY): ");
+		scanf("%10s", input);
+
+		memset(date, 0, sizeof(Date));
+
+		if (sscanf(input, "%2d/%2d/%4d", &(date->day), &(date->month), &(date->year)) != 3) {
+			printf("Invalid format. Please enter again.\n");
+			continue;
+		}
+
+		if (!isValidDate(date)) {
+			printf("Invalid date. Please enter again.\n");
+		}
+	} while (!isValidDate(date));
+
+	return date;
+}
 
 void deleteProdcutFromSupermarket(Product* product, char* delete)
 {

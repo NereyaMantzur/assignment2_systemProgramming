@@ -42,7 +42,16 @@ typedef struct {
 	Sortion isSorted;
 } ProductManager;
 
-void initProductManager(ProductManager* manager);
+typedef struct SupplierManager SupplierManager;
+
+void initProductManager(ProductManager* productManager, SupplierManager* supplierManager);
+void initProductInfo(Product* product, ProductManager* manager);
+void initProductCode(productInfo* newInfo, ProductManager* manager);
+Date* initDate();
+int isLeapYear(int year);
+int isValidDate(Date* date);
+
+void addProductFromText(ProductManager* productManager, SupplierManager* supplierManager);
 Product* addProduct(ProductManager* manager);
 void deleteProdcutFromSupermarket(Product* product, char* delete);
 void doPrintSupermarketWithProductCode(ProductManager* manager);

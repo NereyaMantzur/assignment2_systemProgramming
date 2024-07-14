@@ -11,7 +11,7 @@ typedef struct {
 	int numOfProducts;
 } Supplier;
 
-typedef struct {
+typedef struct SupplierManager {
 	Supplier** suppliers;
 	int numOfSuppliers;
 } SupplierManager;
