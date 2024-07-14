@@ -1,4 +1,4 @@
-#define _CRT_SECURE_NO_WARNINGS
+﻿#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -158,6 +158,18 @@ void q9(ProductManager* manager)
 	sortProductArr(manager);
 }
 
+void q10(ProductManager* manager)
+{
+	printf("\nproduct name        |product code        |product Type\n");
+	generalArrayFunction(manager->productArr, manager->numOfProducts, sizeof(Product*), printProduct);
+}
+
+void q11(SupplierManager* manager)
+{
+	printf("\nsupplier name       |supplier code    ");
+	generalArrayFunction(manager->suppliers, manager->numOfSuppliers, sizeof(Supplier*), printSupplier);
+}
+
 void q12(ProductManager* manager)
 {
 	Product* temp = (Product*)malloc(sizeof(Product));
@@ -225,6 +237,11 @@ int main() {
 		printf("6. Print all products of a specific type in supermarkets\n");
 		printf("7. Print all products of a specific type in suppliers\n");
 		printf("8. Print products by type in a specific supermarket\n");
+		/*        
+
+		     ↓ assisnmet Number 3 ↓
+
+		*/
 		printf("9. sort products by chosen rule\n");
 		printf("10. print all products \n");
 		printf("11. print all suppliers \n");
@@ -264,12 +281,10 @@ int main() {
 			q9(&productManager);
 			break;
 		case 10:
-			printf("\nproduct name        |product code        |product Type\n");
-			generalArrayFunction(productManager.productArr, productManager.numOfProducts, sizeof(Product*), printProduct);
+			q10(&productManager);
 			break;
 		case 11:
-			printf("\nsupplier name       |supplier code    ");
-			generalArrayFunction(supplierManager.suppliers, supplierManager.numOfSuppliers, sizeof(Supplier*), printSupplier);
+			q11(&supplierManager);
 			break;
 		case 12:
 			q12(&productManager);
