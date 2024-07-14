@@ -239,7 +239,7 @@ int main() {
 		printf("8. Print products by type in a specific supermarket\n");
 		/*        
 
-		     ↓ assignmet Number 3 ↓
+		     ↓ assignment Number 3 ↓
 
 		*/
 		printf("9. sort products by chosen rule\n");
