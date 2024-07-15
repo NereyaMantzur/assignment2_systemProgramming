@@ -30,7 +30,6 @@ typedef struct
 typedef struct {
 	char** nameOfSupers;
 	int numOfSupers;
-	char* supplier;
 	productInfo* specs;
 	Date* mfg;
 	Date* exp;
@@ -56,8 +55,8 @@ Product* addProduct(ProductManager* manager);
 void deleteProdcutFromSupermarket(Product* product, char* delete);
 void doPrintSupermarketWithProductCode(ProductManager* manager);
 void doPrintSupermarketWithProductName(ProductManager* manager);
-void doPrintSupplierWithProductCode(ProductManager* manager);
-void doPrintSupplierWithProductName(ProductManager* manager);
+void doPrintSupplierWithProductCode(SupplierManager* manager);
+void doPrintSupplierWithProductName(SupplierManager* manager);
 void doPrintProductsWithProductType(ProductManager* manager);
 Product* findProductByIndex(ProductManager* manager, int index);
 

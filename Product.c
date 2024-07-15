@@ -125,7 +125,6 @@ Product* addProduct(ProductManager* manager) {
 
 	product->nameOfSupers = NULL;
 	product->numOfSupers = 0;
-	product->supplier = NULL;
 
 	initProductInfo(product ,manager);
 
@@ -151,10 +150,6 @@ Product* addProduct(ProductManager* manager) {
 	while (!initDate(product->mfg)) {
 		printf("Invalid date. Please enter manufacture date again:\n");
 	}
-
-	getchar();
-	printf("Please enter supplier name: ");
-	product->supplier = getStr();
 
 	manager->productArr[manager->numOfProducts] = product;
 	manager->numOfProducts++;
@@ -294,35 +289,41 @@ void doPrintSupermarketWithProductName(ProductManager* manager)
 	return;
 }
 
-void doPrintSupplierWithProductCode(ProductManager* manager)
+void doPrintSupplierWithProductCode(SupplierManager* manager)
 {
 	int choice;
 	printf("please enter product code: ");
 	scanf("%d", &choice);
-	for (size_t i = 0; i < manager->numOfProducts; i++)
+	for (size_t i = 0; i < manager->numOfSuppliers; i++)
 	{
-		if (manager->productArr[i]->specs->productCode == choice)
+		for (size_t j = 0; j < manager->suppliers[i]->numOfProducts; j++)
 		{
-			printf("%s", manager->productArr[i]->supplier);
+			if (manager->suppliers[i]->productsArr[j]->specs->productCode == choice)
+			{
+				printProduct(manager->suppliers[i]->productsArr[j]);
 			return;
+			}
 		}
 	}
 	printf("code not valid!");
 	return;
 }
 
-void doPrintSupplierWithProductName(ProductManager* manager)
+void doPrintSupplierWithProductName(SupplierManager* manager)
 {
 	char choice[MAX_NAME];
 	printf("please enter product code: ");
 	scanf("%s", &choice);
 	getchar();
-	for (size_t i = 0; i < manager->numOfProducts; i++)
+	for (size_t i = 0; i < manager->numOfSuppliers; i++)
 	{
-		if (!strcmp(manager->productArr[i]->specs->productName, choice))
+		for (size_t j = 0; j < manager->suppliers[i]->numOfProducts; j++)
 		{
-			printf("%s", manager->productArr[i]->supplier);
-			return;
+			if (!strcmp(manager->suppliers[i]->productsArr[j]->specs->productName ,choice))
+			{
+				printProduct(manager->suppliers[i]->productsArr[j]);
+				return;
+			}
 		}
 	}
 	printf("name not valid!");

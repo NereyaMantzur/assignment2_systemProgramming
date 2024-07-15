@@ -115,13 +115,16 @@ int isProductInSupplier(Product* add, SupplierManager* manager)
 	return 0;
 }
 
-int isProductFromSupplier(ProductManager* managar, Supplier* supplier)
+int isProductFromSupplier(SupplierManager* managar, Product* product)
 {
-	for (size_t i = 0; i < managar->numOfProducts; i++)
+	for (size_t i = 0; i < managar->numOfSuppliers; i++)
 	{
-		if (!strcmp(managar->productArr[i]->supplier, supplier->name))
+		for (size_t j = 0; j < managar->suppliers[i]->numOfProducts; j++)
 		{
-			return 1;
+			if (managar->suppliers[i]->productsArr[j]->specs->productCode == product->specs->productCode )
+			{
+				return 1;
+			}
 		}
 	}
 	return 0;
@@ -314,7 +317,7 @@ Supplier** readSupplierfromText(char* fName , SupplierManager* manager)
 
 	}
 	fclose(readF);
-	printf("suppliers initialized from text file\n");
+	printf("\nsuppliers initialized from text file\n");
 	return manager->suppliers;
 }
 

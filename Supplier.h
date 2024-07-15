@@ -25,7 +25,7 @@ int removeSupplier(SupplierManager* manager, Supplier* delete);
 int updateSupplier(SupplierManager* manager, Supplier* update);
 Supplier* findSupplierByNameOrCode(SupplierManager* manager, char* str, int code);
 
-int isProductFromSupplier(ProductManager* managar, Supplier* supplier);
+int isProductFromSupplier(SupplierManager* managar, Product* product);
 int isProductInSupplier(Product* add, SupplierManager* manager);
 void deleteProdcutFromSupplier(Product* add, SupplierManager* manager);
 
