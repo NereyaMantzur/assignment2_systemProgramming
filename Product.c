@@ -63,7 +63,6 @@ void initProductInfo(Product* product, ProductManager* manager) {
 		}
 		printf("Invalid choice. Try again.\n");
 	}
-
 	product->specs = newInfo;
 }
 
@@ -95,17 +94,28 @@ void initProductCode(productInfo* newInfo, ProductManager* manager) {
 	}
 }
 
-void addProductFromText(ProductManager* productManager, SupplierManager* supplierManager)
-{
-	int index = 0;
-	for (size_t i = 0; i < supplierManager->numOfSuppliers; i++)
-	{
-		for (size_t j = 0; j < supplierManager->suppliers[i]->numOfProducts; j++)
-		{
-			productManager->productArr = (Product**)realloc(productManager->productArr, (productManager->numOfProducts + 1) * sizeof(Product*));
-			productManager->productArr[index] = supplierManager->suppliers[i]->productsArr[j];
-			productManager->numOfProducts++;
-			index++;
+void addProductFromText(ProductManager* productManager, SupplierManager* supplierManager) {
+	for (size_t i = 0; i < supplierManager->numOfSuppliers; i++) {
+		for (size_t j = 0; j < supplierManager->suppliers[i]->numOfProducts; j++) {
+			Product* supplierProduct = supplierManager->suppliers[i]->productsArr[j];
+			int exists = 0;
+
+			for (size_t x = 0; x < productManager->numOfProducts; x++) {
+				if (productManager->productArr[x]->specs->productCode == supplierProduct->specs->productCode) {
+					exists = 1;
+					break;
+				}
+			}
+
+			if (!exists) {
+				productManager->productArr = (Product**)realloc(productManager->productArr, (productManager->numOfProducts + 1) * sizeof(Product*));
+				if (!productManager->productArr) {
+					fprintf(stderr, "Memory allocation failed\n");
+					exit(EXIT_FAILURE);
+				}
+				productManager->productArr[productManager->numOfProducts] = supplierProduct;
+				productManager->numOfProducts++;
+			}
 		}
 	}
 }
