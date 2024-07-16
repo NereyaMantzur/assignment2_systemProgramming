@@ -27,6 +27,9 @@ int isSupermarketCode(Supermarket* super, int code);
 void addProductToSupermarket(Product* add, SupermarketManager* manager);
 int isProductInSupermarket(Product* product, Supermarket* super);
 int addSupermarket(SupermarketManager* manager);
+int initSupermarketCode();
+char* initAddress();
+
 int removeSupermarket(SupermarketManager* manager, Supermarket* delete);
 int updateSupermarket(SupermarketManager* manager, Supermarket* update);
 Supermarket* findSupermarketByNameOrCode(SupermarketManager* manager, char* str, int code);
