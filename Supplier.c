@@ -130,7 +130,7 @@ int isProductFromSupplier(SupplierManager* managar, Product* product)
 	return 0;
 }
 
-//
+
 
 int addSupplier(SupplierManager* manager) {
 	Supplier* supplier = (Supplier*)malloc(sizeof(Supplier));
