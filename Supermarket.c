@@ -155,6 +155,7 @@ char* initAddress() {
 
 int addSupermarket(SupermarketManager* manager) {
 	Supermarket* supermarket = (Supermarket*)malloc(sizeof(Supermarket));
+
 	if (!supermarket) {
 		printf("Memory allocation for supermarket failed.\n");
 		return 0;
@@ -167,7 +168,16 @@ int addSupermarket(SupermarketManager* manager) {
 	strcpy(supermarket->name, getStr());
 
 	printf("Enter supermarket code (5 digits): ");
-	supermarket->code = initSupermarketCode();
+	while (1) {
+		scanf("%d", &supermarket->code);
+		getchar();
+
+		if (supermarket->code >= 10000 && supermarket->code <= 99999) {
+			break;
+		}
+		printf("Code not valid. Try again.\n");
+		printf("Enter supermarket code (5 digits): ");
+	}
 
 	printf("Enter supermarket address - \n");
 	strcpy(supermarket->address, initAddress());
@@ -190,21 +200,6 @@ int addSupermarket(SupermarketManager* manager) {
 	printf("Product added successfully!\n");
 
 	return 1;
-}
-
-int initSupermarketCode()
-{
-	int code;
-	while (1) {
-		scanf("%d",&code);
-		getchar();
-
-		if (code >= 10000 && code <= 99999) {
-			return code;
-		}
-		printf("Code not valid. Try again.\n");
-		printf("Enter supermarket code (5 digits): ");
-	}
 }
 
 int removeSupermarket(SupermarketManager* manager, Supermarket* delete) {

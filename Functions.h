@@ -20,7 +20,6 @@ void q9(ProductManager* manager);
 void q10(ProductManager* manager);
 void q11(SupplierManager* manager);
 void q12(ProductManager* manager);
-void q13(SupplierManager* manager);
 
 void replaceSpaces(char* str);
 char* getStr();

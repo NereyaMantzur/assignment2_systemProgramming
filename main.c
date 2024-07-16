@@ -37,8 +37,7 @@ int main() {
 		printf("10. print all products \n");
 		printf("11. print all suppliers \n");
 		printf("12. search product by (name/code)\n");
-		printf("13.  Add a supplier \n");
-		printf("14. Exit\n");
+		printf("13. Exit\n");
 
 
 		printf("Enter your choice: ");
@@ -82,16 +81,13 @@ int main() {
 			q12(&productManager);
 			break;
 		case 13:
-			q13(&supplierManager);
-			break;
-		case 14:
 			printf("Exiting the program.\n");
 			break;
 		default:
-			printf("Invalid choice. Please enter a number between 1 and 14.\n");
+			printf("Invalid choice. Please enter a number between 1 and 13.\n");
 		}
 		writeSupplierToText(SUPPLIER_TEXT, supplierManager.numOfSuppliers, &supplierManager);
-	} while (choice != 14);
+	} while (choice != 13);
 
 	return 0;
 }

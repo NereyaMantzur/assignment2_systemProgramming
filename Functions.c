@@ -47,16 +47,11 @@ void q3(SupermarketManager* manager)
 {
 	char name[MAX_NAME];
 	int code;
-	if (manager->numOfSupermarkets == 0)
-	{
-		printf("no supermarket in the system\n");
-		return;
-	}
 	printSupermarketManager(manager);
 	printf("enter supermarket name:\n");
 	strcpy(name, getStr());
 	printf("enter supermarket code:\n");
-	code = initSupermarketCode();
+	scanf("%d", &code);
 	Supermarket* super = findSupermarketByNameOrCode(manager, name, code);
 	if (!super)
 	{
@@ -69,11 +64,6 @@ void q3(SupermarketManager* manager)
 
 void q4(SupermarketManager* manager)
 {
-	if (manager->numOfSupermarkets == 0)
-	{
-		printf("no supermarket in the system\n");
-		return;
-	}
 	printf("\nall supermarket info:\n");
 	printSupermarketManager(manager);
 }
@@ -88,11 +78,6 @@ void q5(SupplierManager* manager)
 	printf("please enter supplier code: ");
 	scanf("%d", &code);
 	Supplier* supplier = findSupplierByNameOrCode(manager, name, code);
-	if (!supplier)
-	{
-		printf("no such supplier\n");
-		return;
-	}
 	printf("\n%s products are:\n", supplier->name);
 	printf("\n# |product name        |product code        |product Type\n");
 	for (int i = 0; i < supplier->numOfProducts; i++)
@@ -152,25 +137,13 @@ void q8(SupermarketManager* manager)
 {
 	char name[MAX_NAME];
 	int code;
-	int type;
-	if (manager->numOfSupermarkets == 0)
-	{
-		printf("No supermarkets in the system\n");
-		return;
-	}
 	printSupermarketManager(manager);
 	printf("please choose supermarket name: ");
 	strcpy(name, getStr());
 	printf("please enter supermarket code: ");
-	code = initSupermarketCode();
-	printf("please choose Product Type:\n");
-	printf("1 - FOOD\n");
-	printf("2 - CLEANING\n");
-	printf("3 - GENERAL\n");
-	scanf("%d", &type);
-
+	scanf("%d", &code);
 	Supermarket* temp = manager->supermarketList;
-	while (temp)
+	while (!temp)
 	{
 		if ((!strcmp(temp->name, name)) || temp->code == code)
 		{
@@ -178,14 +151,9 @@ void q8(SupermarketManager* manager)
 			printf("\nall product of a specific type in %s: \n", super->name);
 			for (size_t j = 0; j < super->numOfProducts; j++)
 			{
-				if (*super->productsArr[j]->specs->type == type)
-				{
-					printProduct(super->productsArr[j]);
-				}
+				printProduct(super->productsArr[j]);
 			}
-			return;
 		}
-		temp = temp->next;
 	}
 }
 
@@ -251,11 +219,6 @@ void q12(ProductManager* manager)
 		printf("Invalid choice. Please enter a number between 1 and 13.\n");
 	}
 
-}
-
-void q13(SupplierManager* manager)
-{
-	addSupplier(manager);
 }
 
 void replaceSpaces(char* str) {
