@@ -110,8 +110,7 @@ void addProductFromText(ProductManager* productManager, SupplierManager* supplie
 			if (!exists) {
 				productManager->productArr = (Product**)realloc(productManager->productArr, (productManager->numOfProducts + 1) * sizeof(Product*));
 				if (!productManager->productArr) {
-					fprintf(stderr, "Memory allocation failed\n");
-					exit(EXIT_FAILURE);
+					printf("Memory allocation failed\n");
 				}
 				productManager->productArr[productManager->numOfProducts] = supplierProduct;
 				productManager->numOfProducts++;
